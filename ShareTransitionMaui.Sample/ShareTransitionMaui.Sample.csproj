@@ -38,6 +38,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -66,4 +69,20 @@
 	  <ProjectReference Include="..\ShareTransitionMaui\ShareTransitionMaui.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Resources\Images\hulk.png" />
+	  <None Remove="Resources\Images\spider2.png" />
+	  <None Remove="Resources\Images\spider1.png" />
+	  <None Remove="Models\" />
+	  <None Remove="Resources\Images\iron.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="Resources\Images\hulk.png" />
+	  <BundleResource Include="Resources\Images\spider2.png" />
+	  <BundleResource Include="Resources\Images\spider1.png" />
+	  <BundleResource Include="Resources\Images\iron.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Models\" />
+	</ItemGroup>
 </Project>
