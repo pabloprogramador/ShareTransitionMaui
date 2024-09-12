@@ -148,6 +148,16 @@ public partial class MainPage : ContentPage
 
 		
     }
+
+    void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+    {
+        pgShareTransition.GoTo(1);
+    }
+
+    void Button_Clicked(System.Object sender, System.EventArgs e)
+    {
+        pgShareTransition.GoTo(0);
+    }
 }
 
 

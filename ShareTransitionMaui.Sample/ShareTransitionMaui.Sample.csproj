@@ -75,12 +75,14 @@
 	  <None Remove="Resources\Images\spider1.png" />
 	  <None Remove="Models\" />
 	  <None Remove="Resources\Images\iron.png" />
+	  <None Remove="Resources\Images\logo.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Images\hulk.png" />
 	  <BundleResource Include="Resources\Images\spider2.png" />
 	  <BundleResource Include="Resources\Images\spider1.png" />
 	  <BundleResource Include="Resources\Images\iron.png" />
+	  <BundleResource Include="Resources\Images\logo.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
