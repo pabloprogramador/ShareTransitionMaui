@@ -27,7 +27,7 @@
                                     StrokeShape="RoundRectangle 15">
                                     <Border.Margin>
                                         <OnPlatform x:TypeArguments="Thickness" Default="0">
-                                            <On Platform="Android" Value="32,0" />
+                                            <On Platform="Android" Value="20,0" />
                                         </OnPlatform>
                                     </Border.Margin>
                                     <Border.Background>

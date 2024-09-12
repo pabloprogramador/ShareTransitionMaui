@@ -61,7 +61,7 @@ public partial class MainPage : ContentPage
         var posOffset = (widthCarousel * (_currentIndex + 1)) - (e.HorizontalOffset / ajustDevice);
         var pos = (((posOffset * depth) / widthCarousel) - depth);
         double sizeP = (((posOffset * (sizeMax - sizeMin)) / widthCarousel) + sizeMin) ;
-
+        
         if (sizeP > sizeMax)
         {
             sizeP = sizeMax + sizeMax - sizeP;
@@ -72,17 +72,39 @@ public partial class MainPage : ContentPage
             sizeP = Math.Max(sizeP, sizeMin);
         }
 
+        if (sizeP <= 120)
+        {
+            return;
+        }
 
-        Heroes[e.LastVisibleItemIndex].Position = pos + depth;
-        Heroes[_currentIndex].Position = pos;
+        if (ValidArray(e.LastVisibleItemIndex, Heroes.Count()))
+        {
+            Heroes[e.LastVisibleItemIndex].Position = pos + depth;
+            Heroes[e.LastVisibleItemIndex].Size = sizeMin + (sizeMax - sizeP);
+        }
 
-        Heroes[e.LastVisibleItemIndex].Size = sizeMin + (sizeMax - sizeP);
-        Heroes[e.FirstVisibleItemIndex].Size = sizeMin + (sizeMax - sizeP);
-        Heroes[_currentIndex].Size = sizeP;
+        if (ValidArray(e.FirstVisibleItemIndex, Heroes.Count()))
+        {
+            Heroes[e.FirstVisibleItemIndex].Size = sizeMin + (sizeMax - sizeP);
+        }
+
+        if (ValidArray(_currentIndex, Heroes.Count()))
+        {
+            Heroes[_currentIndex].Position = pos;
+            Heroes[_currentIndex].Size = sizeP;
+        }
 
     }
 
 
+    private bool ValidArray(int index, int length)
+    {
+        if (index >= 0 && index < length)
+        {
+            return true;
+        }
+        return false;
+    }
 
 
 
