@@ -94,6 +94,10 @@ public partial class MainPage : ContentPage
             Heroes[_currentIndex].Size = sizeP;
         }
 
+        Heroes[e.LastVisibleItemIndex].ClassId = null;
+        Heroes[e.FirstVisibleItemIndex].ClassId = null;
+        Heroes[_currentIndex].ClassId = "imageHero";
+
     }
 
 
