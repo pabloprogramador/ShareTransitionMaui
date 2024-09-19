@@ -64,40 +64,40 @@ namespace ShareTransitionMaui
                 var nextObj = FindByClassId<Image>((Element)_roots[index].Root, item);
                 if (nextObj != null)
                 {
-                    
-                    var temp = await CloneElement(currentObj, this);
+                    nextObj.Opacity = 0;
 
+                    var temp = await CloneElement(currentObj, this);
+                    
                     //temp.Opacity = .5;
                     //temp.BackgroundColor = Colors.Yellow;
                     //temp.VerticalOptions = LayoutOptions.Start;
                     //temp.HorizontalOptions = LayoutOptions.Start;
-                    if(currentObj.Width / currentObj.Height > nextObj.Width/nextObj.Height)
+                    if (currentObj.Width / currentObj.Height > nextObj.Width/nextObj.Height)
                     temp.Aspect = Aspect.AspectFill;
 
                     temp.InputTransparent = true;
                     temp.ZIndex = zindex;
-                    zindex++;
                     nextObj.Source = currentObj.Source;
-                    nextObj.IsVisible = false;
+                    zindex++;
 
-                    (double currentX, double currentY,
-                     double currentWidth, double currentHeight) = currentObj.GetAbsolutePosition();
+                    var currentPoint = currentObj.GetAbsolutePosition();
 
-                    (double nextX, double nextY,
-                     double nextWidth, double nextHeight) = nextObj.GetAbsolutePosition();
-                    
+                    var nextPoint = nextObj.GetAbsolutePosition();
+
+
+
                     AnimateImage(temp,
-                        currentX, currentY, nextX, nextY,
+                        currentPoint.X, currentPoint.Y, nextPoint.X, nextPoint.Y,
                         currentObj.Rotation,
                         nextObj.Rotation,
-                        currentWidth, nextWidth,
-                        currentHeight, nextHeight,
+                        currentObj.Width, nextObj.Width,
+                        currentObj.Height, nextObj.Height,
                         700, Easing.SpringOut,
                         async () => {
                             this.Children.Remove(temp);
-                            nextObj.IsVisible = true;
-                     });
-                    NoVisible(currentObj);
+                            nextObj.Opacity = 1;
+                        });
+                    currentObj.Opacity = 0;
                 }
             };
 
@@ -115,7 +115,7 @@ namespace ShareTransitionMaui
 
             ((VisualElement)_roots[Current].Root).IsVisible = false;
             Current = index;
-
+            
             IsBusy = false;
         }
 
@@ -123,11 +123,7 @@ namespace ShareTransitionMaui
         //{
         //    return views.Where(item => ((Element)item.Item).ClassId == classId)?.First()?.Item;   
         //}
-        private async void NoVisible(Image obj)
-        {
-            await Task.Delay(50);
-            obj.IsVisible = false;
-        }
+       
 
         private List<PageView> SearchAllViews(PageView view)
         {
@@ -210,10 +206,12 @@ namespace ShareTransitionMaui
                     HorizontalOptions = LayoutOptions.Start,
                     WidthRequest = element.Width,   // Ajusta a largura
                     HeightRequest = element.Height,  // Ajusta a altura
+                    Opacity = 0
                 };
 
                 // Adiciona a imagem à grid
                 targetGrid.Children.Add(image);
+                await Task.Delay(200);
                 return image;
             }
             return null;
@@ -230,12 +228,13 @@ namespace ShareTransitionMaui
         Easing easingType,
         Action onCompleted)
         {
+            element.Opacity = 1;
             element.TranslationX = startX;
             element.TranslationY = startY;
             element.Rotation = startRotation;
             element.WidthRequest = startWidth;
             element.HeightRequest = startHeight;
-
+            
             element.Animate("CustomAnimation", new Animation(v =>
             {
                 element.TranslationX = startX + (endX - startX) * v;
@@ -250,9 +249,7 @@ namespace ShareTransitionMaui
             {
                 onCompleted?.Invoke();
             });
-
         }
-
     }
 
     public class PageRoot
