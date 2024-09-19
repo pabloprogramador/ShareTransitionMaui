@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+
+
 namespace ShareTransitionMaui
 {
     public class ShareTransition : Grid
@@ -16,6 +18,8 @@ namespace ShareTransitionMaui
 
         public ShareTransition()
         {
+            this.IgnoreSafeArea = true;
+            this.IsClippedToBounds = false;
             _roots = new List<PageRoot>();
         }
 
@@ -60,18 +64,40 @@ namespace ShareTransitionMaui
                 var nextObj = FindByClassId<Image>((Element)_roots[index].Root, item);
                 if (nextObj != null)
                 {
-                    //obj.BackgroundColor = Colors.Green;
+                    
                     var temp = await CloneElement(currentObj, this);
-                    currentObj.IsVisible = false;
+
+                    //temp.Opacity = .5;
+                    //temp.BackgroundColor = Colors.Yellow;
+                    //temp.VerticalOptions = LayoutOptions.Start;
+                    //temp.HorizontalOptions = LayoutOptions.Start;
+                    if(currentObj.Width / currentObj.Height > nextObj.Width/nextObj.Height)
+                    temp.Aspect = Aspect.AspectFill;
+
                     temp.InputTransparent = true;
                     temp.ZIndex = zindex;
                     zindex++;
                     nextObj.Source = currentObj.Source;
                     nextObj.IsVisible = false;
-                    await temp.ScaleTo(2.2, 700, easing: Easing.SpringOut);
-                    this.Children.Remove(temp);
-                    nextObj.IsVisible = true;
 
+                    (double currentX, double currentY,
+                     double currentWidth, double currentHeight) = currentObj.GetAbsolutePosition();
+
+                    (double nextX, double nextY,
+                     double nextWidth, double nextHeight) = nextObj.GetAbsolutePosition();
+                    
+                    AnimateImage(temp,
+                        currentX, currentY, nextX, nextY,
+                        currentObj.Rotation,
+                        nextObj.Rotation,
+                        currentWidth, nextWidth,
+                        currentHeight, nextHeight,
+                        700, Easing.SpringOut,
+                        async () => {
+                            this.Children.Remove(temp);
+                            nextObj.IsVisible = true;
+                     });
+                    NoVisible(currentObj);
                 }
             };
 
@@ -97,6 +123,11 @@ namespace ShareTransitionMaui
         //{
         //    return views.Where(item => ((Element)item.Item).ClassId == classId)?.First()?.Item;   
         //}
+        private async void NoVisible(Image obj)
+        {
+            await Task.Delay(50);
+            obj.IsVisible = false;
+        }
 
         private List<PageView> SearchAllViews(PageView view)
         {
@@ -164,7 +195,7 @@ namespace ShareTransitionMaui
             return classIds;
         }
 
-        public async Task<Image> CloneElement(VisualElement element, Grid targetGrid)
+        private async Task<Image> CloneElement(VisualElement element, Grid targetGrid)
         {
             // Captura o visual do elemento
             var screenshot = await element.CaptureAsync();
@@ -175,8 +206,10 @@ namespace ShareTransitionMaui
                 var image = new Image
                 {
                     Source = ImageSource.FromStream(() => screenshot.OpenReadAsync().Result),
+                    VerticalOptions = LayoutOptions.Start,
+                    HorizontalOptions = LayoutOptions.Start,
                     WidthRequest = element.Width,   // Ajusta a largura
-                    HeightRequest = element.Height  // Ajusta a altura
+                    HeightRequest = element.Height,  // Ajusta a altura
                 };
 
                 // Adiciona a imagem à grid
@@ -186,6 +219,39 @@ namespace ShareTransitionMaui
             return null;
         }
 
+        private void AnimateImage(
+        VisualElement element,
+        double startX, double startY,
+        double endX, double endY,
+        double startRotation, double endRotation,
+        double startWidth, double endWidth,
+        double startHeight, double endHeight,
+        uint duration,
+        Easing easingType,
+        Action onCompleted)
+        {
+            element.TranslationX = startX;
+            element.TranslationY = startY;
+            element.Rotation = startRotation;
+            element.WidthRequest = startWidth;
+            element.HeightRequest = startHeight;
+
+            element.Animate("CustomAnimation", new Animation(v =>
+            {
+                element.TranslationX = startX + (endX - startX) * v;
+                element.TranslationY = startY + (endY - startY) * v;
+
+                element.Rotation = startRotation + (endRotation - startRotation) * v;
+
+                element.WidthRequest = startWidth + (endWidth - startWidth) * v;
+                element.HeightRequest = startHeight + (endHeight - startHeight) * v;
+
+            }), 16, length: duration, easing: easingType, (d, v) =>
+            {
+                onCompleted?.Invoke();
+            });
+
+        }
 
     }
 

@@ -53,7 +53,12 @@
                                 </Grid>
 
 
-                                <Image ClassId="{Binding ClassId}" Margin="0,0,0,30" MaximumHeightRequest="270" Aspect="AspectFit" TranslationX="{Binding Position}" Source="{Binding Image}"/>
+                                <Image ClassId="{Binding ClassId}"
+                                       Margin="0,0,0,30" 
+                                       Aspect="AspectFit"
+                                       
+                                       TranslationX="{Binding Position}"
+                                       Source="{Binding Image}"/>
                                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" Margin="20,0,20,30"  VerticalOptions="End" HeightRequest="40">
                                     <Label Text="{Binding Name}"
                                FontAttributes="Bold"
@@ -95,7 +100,10 @@
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 0">
             </Border>
-            <Image Source="spider1.png" ClassId="imageHero" Margin="10" VerticalOptions="Center"/>
+            
+            <Image Source="spider1.png" ClassId="imageHero"
+                   Aspect="AspectFit" 
+                   HorizontalOptions="Center" VerticalOptions="Center"/>
             <Button
                 Text="X" 
                 Clicked="Button_Clicked"
@@ -104,9 +112,10 @@
                  FontSize="20"
                  BackgroundColor="Black" 
                 HorizontalOptions="End" />
+
             <VerticalStackLayout Grid.Row="1" Padding="20,0">
                 <Grid ColumnDefinitions="65,*" ColumnSpacing="10">
-                    <Image Source="logo.png"/>
+                    <Image Source="logo.png" />
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="Spider-Man" FontSize="22" FontFamily="Arial" FontAttributes="Bold" TextColor="Gray"/>
                         <Label Text="Insomniac Games" FontSize="15" TextColor="Black"/>
