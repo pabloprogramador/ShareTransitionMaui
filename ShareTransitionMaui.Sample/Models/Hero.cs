@@ -12,15 +12,29 @@ namespace ShareTransitionMaui.Sample.Models
 		public string Color2 { get; set; }
         public string Image { get; set; }
 
-        private string _classId;
-        public string ClassId
+        private string _classIdImage;
+        public string ClassIdImage
         {
-            get { return _classId; }
+            get { return _classIdImage; }
             set
             {
-                if (_classId != value)
+                if (_classIdImage != value)
                 {
-                    _classId = value;
+                    _classIdImage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private string _classIdBorder;
+        public string ClassIdBorder
+        {
+            get { return _classIdBorder; }
+            set
+            {
+                if (_classIdBorder != value)
+                {
+                    _classIdBorder = value;
                     OnPropertyChanged();
                 }
             }

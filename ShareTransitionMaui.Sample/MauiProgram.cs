@@ -15,6 +15,18 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+#if IOS
+		Microsoft.Maui.Handlers.BorderHandler.Mapper.PrependToMapping("DON'T ANIMATE YOU FILTHY ANIMAL", (handler, view) =>
+        {
+            foreach (var layer in handler.PlatformView.Layer.Sublayers)
+            {
+                layer.RemoveAllAnimations();
+            }
+            handler.PlatformView.Layer.RemoveAllAnimations();
+
+        });
+#endif
+
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif

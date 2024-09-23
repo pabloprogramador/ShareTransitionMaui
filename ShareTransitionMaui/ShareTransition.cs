@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-
-
+using Microsoft.Maui.Layouts;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace ShareTransitionMaui
 {
@@ -14,6 +15,7 @@ namespace ShareTransitionMaui
 
         private int zindex;
         private List<PageRoot> _roots;
+        private List<Element> NoBackground;
 
 
         public ShareTransition()
@@ -21,6 +23,7 @@ namespace ShareTransitionMaui
             this.IgnoreSafeArea = true;
             this.IsClippedToBounds = false;
             _roots = new List<PageRoot>();
+            NoBackground = new List<Element>();
         }
 
         protected async override void OnSizeAllocated(double width, double height)
@@ -28,16 +31,16 @@ namespace ShareTransitionMaui
             base.OnSizeAllocated(width, height);
             await Task.Delay(200);
 
-            foreach (IView item in this.Children)
+            foreach (VisualElement item in this.Children)
             {
-                var list = SearchAllViews(new PageView { Item = item });
+                var list = SearchAllViews(item);
                 list.RemoveAt(0);
                 _roots.Add(new PageRoot
                 {
                     Root = item,
                     Views = list
                 });
-                ((VisualElement)item).IsVisible = false;
+                item.IsVisible = false;
             }
             zindex = _roots.Count;
             if (Current >= 0 && Current < _roots.Count)
@@ -50,6 +53,8 @@ namespace ShareTransitionMaui
             if (IsBusy) return;
             IsBusy = true;
 
+            var listWithClassId = new List<Element>();
+
             ((VisualElement)_roots[index].Root).ZIndex = zindex;
             zindex++;
 
@@ -57,21 +62,26 @@ namespace ShareTransitionMaui
 
             ((VisualElement)_roots[index].Root).IsVisible = true;
 
+            foreach (var item in _roots[index].Views)
+            {
+                item.Opacity = 0;
+            }
+
+            //IMAGE
             foreach (var item in list)
             {
 
-                var currentObj = FindByClassId<Image>((Element)_roots[Current].Root, item);
-                var nextObj = FindByClassId<Image>((Element)_roots[index].Root, item);
+                var currentObj = FindByClassId<Image>(_roots[Current].Root, item);
+                var nextObj = FindByClassId<Image>(_roots[index].Root, item);
                 if (nextObj != null)
                 {
+                    listWithClassId.Add(currentObj);
+                    listWithClassId.Add(nextObj);
+
                     nextObj.Opacity = 0;
 
-                    var temp = await CloneElement(currentObj, this);
+                    var temp = await CloneImage(currentObj, this);
                     
-                    //temp.Opacity = .5;
-                    //temp.BackgroundColor = Colors.Yellow;
-                    //temp.VerticalOptions = LayoutOptions.Start;
-                    //temp.HorizontalOptions = LayoutOptions.Start;
                     if (currentObj.Width / currentObj.Height > nextObj.Width/nextObj.Height)
                     temp.Aspect = Aspect.AspectFill;
 
@@ -83,8 +93,6 @@ namespace ShareTransitionMaui
                     var currentPoint = currentObj.GetAbsolutePosition();
 
                     var nextPoint = nextObj.GetAbsolutePosition();
-
-
 
                     AnimateImage(temp,
                         currentPoint.X, currentPoint.Y, nextPoint.X, nextPoint.Y,
@@ -99,55 +107,105 @@ namespace ShareTransitionMaui
                         });
                     currentObj.Opacity = 0;
                 }
-            };
+            }
 
-            //foreach (var item in _roots[Current].Views)
-            //{
-            //    //((VisualElement)item.Item).FadeTo(0, 300);
-            //}
+            //SHAPE
+            foreach (var item in list)
+            {
+                var currentObj = FindByClassId<Shape>(_roots[Current].Root, item);
+                var nextObj = FindByClassId<Shape>(_roots[index].Root, item);
+                if (nextObj != null)
+                {
+                    listWithClassId.Add(currentObj);
+                    listWithClassId.Add(nextObj);
 
-            await Task.Delay(300);
+                    nextObj.Opacity = 0;
 
-            //foreach (var item in _roots[Current].Views)
-            //{
-            //    ((VisualElement)item.Item).Opacity = 1;
-            //}
+                    var temp = CloneShape(currentObj);
+                    //temp.VerticalOptions = LayoutOptions.Center;
+                    //temp.HorizontalOptions = LayoutOptions.Center;
+                    temp.ClassId = "";
+                    temp.InputTransparent = true;
+                    
+                    this.Children.Add(temp);
+                    currentObj.Opacity = 0;
+                    //temp.ZIndex = zindex;
+                    //zindex++;
 
-            ((VisualElement)_roots[Current].Root).IsVisible = false;
+                    ShapeAnimationExtensions.AnimateShapeAsync(temp, currentObj, nextObj, 700, Easing.Linear,
+                            async () =>
+                            {
+                                this.Children.Remove(temp);
+                                if(nextObj.Fill == null)
+                                {
+                                   NoBackground.Add(nextObj);
+                                   CopyColorShape(currentObj, nextObj);
+                                }
+
+                                if (NoBackground.Contains(currentObj))
+                                {
+                                    currentObj.Fill = null;
+                                }
+                                nextObj.Opacity = 1;
+                            }
+                    );
+
+                    
+                }
+            }
+
+            foreach (var item in _roots[index].Views)
+            {
+                if (!listWithClassId.Contains(item))
+                {
+                    item.FadeTo(1, 300);
+                }
+            }
+
+            foreach (var item in _roots[Current].Views)
+            {
+                if(!listWithClassId.Contains(item))
+                item.FadeTo(0, 300);
+            }
+
+            await Task.Delay(700);
+
+            foreach (var item in _roots[Current].Views)
+            {
+                item.Opacity = 1;
+            }
+
+
+            _roots[Current].Root.IsVisible = false;
+
             Current = index;
             
             IsBusy = false;
         }
 
-        //private IView SearchByClassId(string classId, List<PageView> views)
-        //{
-        //    return views.Where(item => ((Element)item.Item).ClassId == classId)?.First()?.Item;   
-        //}
-       
-
-        private List<PageView> SearchAllViews(PageView view)
+        private List<VisualElement> SearchAllViews(VisualElement view)
         {
 
-            var views = new List<PageView>
+            var views = new List<VisualElement>
             {
                 // Adiciona a própria view à lista
                 view
             };
 
             // Se a view for um container (por exemplo, Layout), itera sobre seus filhos
-            if (view.Item is Layout layout)
+            if (view is Layout layout)
             {
                 foreach (var child in layout.Children)
                 {
                     // Chama o método recursivamente para cada filho
-                    views.AddRange(SearchAllViews(new PageView { Item = child }));
+                    views.AddRange(SearchAllViews((VisualElement)child));
                 }
             }
             // Se a view for um ContentView, verifica se tem conteúdo
-            else if (view.Item is ContentView contentView && contentView.Content is IView content)
+            else if (view is ContentView contentView && contentView.Content is IView content)
             {
                 // Chama o método recursivamente para o conteúdo
-                views.AddRange(SearchAllViews(new PageView { Item = content }));
+                views.AddRange(SearchAllViews((VisualElement)content));
             }
 
             return views;
@@ -191,7 +249,76 @@ namespace ShareTransitionMaui
             return classIds;
         }
 
-        private async Task<Image> CloneElement(VisualElement element, Grid targetGrid)
+        private static Shape CloneShape(Shape shape)
+        {
+            var source = (RoundRectangle)shape;
+            
+            var clonedShape = new RoundRectangle();
+
+            clonedShape.Stroke = source.Stroke;
+            clonedShape.StrokeThickness = source.StrokeThickness;
+            clonedShape.CornerRadius = source.CornerRadius;
+            clonedShape.StrokeDashArray = source.StrokeDashArray;
+            clonedShape.StrokeDashOffset = source.StrokeDashOffset;
+            clonedShape.StrokeLineCap = source.StrokeLineCap;
+            clonedShape.StrokeLineJoin = source.StrokeLineJoin;
+            clonedShape.StrokeMiterLimit = source.StrokeMiterLimit;
+            
+            clonedShape.HorizontalOptions = LayoutOptions.Start;
+            clonedShape.VerticalOptions = LayoutOptions.Start;
+
+
+            CopyColorShape(source, clonedShape);
+
+            return clonedShape;
+        }
+
+        private static void CopyColorShape(Shape source, Shape target)
+        {
+            if (source.Fill is LinearGradientBrush linearGradient)
+            {
+                // Clonando o gradiente linear
+                var gradientClone = new LinearGradientBrush
+                {
+                    StartPoint = linearGradient.StartPoint,
+                    EndPoint = linearGradient.EndPoint
+                };
+
+                foreach (var gradientStop in linearGradient.GradientStops)
+                {
+                    gradientClone.GradientStops.Add(new GradientStop
+                    {
+                        Offset = gradientStop.Offset,
+                        Color = gradientStop.Color
+                    });
+                }
+
+                target.Fill = gradientClone;
+            }
+            else if (source.Fill is RadialGradientBrush radialGradient)
+            {
+                // Clonando o gradiente radial
+                var gradientClone = new RadialGradientBrush
+                {
+                    Center = radialGradient.Center,
+                    Radius = radialGradient.Radius,
+                    GradientStops = radialGradient.GradientStops
+                };
+
+                foreach (var gradientStop in radialGradient.GradientStops)
+                {
+                    gradientClone.GradientStops.Add(new GradientStop
+                    {
+                        Offset = gradientStop.Offset,
+                        Color = gradientStop.Color
+                    });
+                }
+
+                target.Fill = gradientClone;
+            }
+        }
+
+        private async Task<Image> CloneImage(VisualElement element, Layout targetGrid)
         {
             // Captura o visual do elemento
             var screenshot = await element.CaptureAsync();
@@ -254,21 +381,8 @@ namespace ShareTransitionMaui
 
     public class PageRoot
     {
-        public IView Root;
-        public List<PageView> Views;
-    }
-
-    public class PageView
-    {
-        public IView Next;
-        public IView Item;
-        public double PosX;
-        public double PosY;
-        public int Opacity;
-        public double Width;
-        public double Height;
-        public string Color;
-
+        public VisualElement Root;
+        public List<VisualElement> Views;
     }
 
 }

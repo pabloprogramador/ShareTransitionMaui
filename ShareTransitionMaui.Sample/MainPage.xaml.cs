@@ -49,10 +49,7 @@ public partial class MainPage : ContentPage
 	{
 		InitializeComponent();
         this.BindingContext = Heroes;
-        //pgCarousel.ItemsSource = Heroes;
 	}
-
-   
 
     public void Handle_Scrolled(object sender, ItemsViewScrolledEventArgs e)
     {
@@ -94,9 +91,13 @@ public partial class MainPage : ContentPage
             Heroes[_currentIndex].Size = sizeP;
         }
 
-        Heroes[e.LastVisibleItemIndex].ClassId = null;
-        Heroes[e.FirstVisibleItemIndex].ClassId = null;
-        Heroes[_currentIndex].ClassId = "imageHero";
+        Heroes[e.LastVisibleItemIndex].ClassIdImage = null;
+        Heroes[e.FirstVisibleItemIndex].ClassIdImage = null;
+        Heroes[e.LastVisibleItemIndex].ClassIdBorder = null;
+        Heroes[e.FirstVisibleItemIndex].ClassIdBorder = null;
+
+        Heroes[_currentIndex].ClassIdImage = "imageHero";
+        Heroes[_currentIndex].ClassIdBorder = "shapeBackground";
 
     }
 
@@ -111,46 +112,9 @@ public partial class MainPage : ContentPage
     }
 
 
-
-
     private void OnCounterClicked(object sender, EventArgs e)
 	{
-  //      // Suponha que você tenha um StackLayout chamado stackLayout
-  //      var children = pgVertical.Children;
-
-  //      // Filtrar Labels pelo grupo "group1"
-  //      var group1Labels = children
-  //          .OfType<Label>() // Apenas Labels
-  //          .Where(label => label.ClassId == "group1"); // Filtra pelo ClassId
-
-  //      // Exemplo: alterar a cor de fundo de todas as Labels do grupo "group1"
-  //      foreach (var label in group1Labels)
-  //      {
-  //          label.BackgroundColor = Colors.LightBlue;
-  //      }
-
-
-  //      double xp = 0;
-  //      double yp = 0;
-
-  //      if (!flag)
-		//{
-  //          var pointEnd = pgEnd.GetAbsolutePosition();
-  //          Console.WriteLine($"::X: {pointEnd.X} , Y: {pointEnd.Y}");
-
-  //          var point = pgStart.GetAbsolutePosition();
-  //          Console.WriteLine($"::X: {point.X} , Y: {point.Y}");
-
-  //          xp = pointEnd.X - point.X;
-  //          yp = pointEnd.Y - point.Y;
-  //      }
-
-		//flag = !flag;
-		
-
-  //      pgStart.TranslateTo(xp, yp, 1500, easing:Easing.SpringOut);
-
-		
+  
     }
 
     void ImageButton_Clicked(System.Object sender, System.EventArgs e)
@@ -164,13 +128,3 @@ public partial class MainPage : ContentPage
     }
 }
 
-
-//[DOTNET] ::X: 419 , Y: 596
-//[DOTNET] ::X: 0 , Y: 176
-//[DOTNET] ::X: 60 , Y: 176
-//[DOTNET] ::X: 60 , Y: 904
-
-//::X: 100.66666666666667 , Y: 307.6666666666667
-//::X: 0 , Y: 97.66666666666669
-//::X: 30 , Y: 97.66666666666669
-//::X: 30 , Y: 467
