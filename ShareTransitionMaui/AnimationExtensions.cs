@@ -1,10 +1,77 @@
 ﻿using System;
 using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 
 namespace ShareTransitionMaui
 {
     public static class AnimationExtensions
     {
+        public static async Task ColorShapeTo(this Shape shape, Color startColor, Color endColor, uint duration, Easing easing, Action<Color> callback = null)
+        {
+            await shape.ColorTo(startColor, endColor, c =>
+            {
+                if (callback != null)
+                {
+                    callback(c);
+                }
+                else
+                {
+                    shape.Fill = new SolidColorBrush(c);
+                }
+            }, duration, easing);
+        }
+
+
+        public static async Task GradientShapeTo(this Shape shape, LinearGradientBrush startGradient, LinearGradientBrush endGradient, uint duration, Easing easing)
+        {
+            var startStops = startGradient.GradientStops.ToList();
+            var endStops = endGradient.GradientStops.ToList();
+
+            for (int i = 0; i < startStops.Count; i++)
+            {
+                var startColor = startStops[i].Color;
+                var endColor = i < endStops.Count ? endStops[i].Color : startColor;
+
+                await shape.ColorTo(startColor, endColor, color =>
+                {
+                    startStops[i].Color = color;
+                    shape.Fill = startGradient;
+                }, duration, easing);
+            }
+        }
+
+        public static void AnimateSizePosition(
+        this VisualElement element,
+        double startX, double startY,
+        double endX, double endY,
+        double startWidth, double endWidth,
+        double startHeight, double endHeight,
+        uint duration,
+        Easing easingType,
+        Action onCompleted)
+        {
+
+            element.Opacity = 1;
+            element.TranslationX = startX;
+            element.TranslationY = startY;
+            element.WidthRequest = startWidth;
+            element.HeightRequest = startHeight;
+
+            element.Animate("CustomAnimationSizePosition", new Animation(v =>
+            {
+                element.TranslationX = startX + (endX - startX) * v;
+                element.TranslationY = startY + (endY - startY) * v;
+
+                element.WidthRequest = startWidth + (endWidth - startWidth) * v;
+                element.HeightRequest = startHeight + (endHeight - startHeight) * v;
+
+            }), 16, length: duration, easing: easingType, (d, v) =>
+            {
+                onCompleted?.Invoke();
+            });
+        }
+
         // Animação para uma propriedade do tipo Color
         public static Task ColorTo(this VisualElement element, Color startColor, Color endColor, Action<Color> callback, uint length = 250, Easing easing = null)
         {
@@ -63,59 +130,66 @@ namespace ShareTransitionMaui
             animation.Commit(element, "AnimateCornerRadius", 16, duration);
         }
 
+        public static async Task Labelto(this Label label, double startFontSize, double endFontSize, Color startFontColor, Color endFontColor, Color startBackgroundColor, Color endBackgroundColor, uint duration)
+        {
+            // Create an animation for FontSize and FontColor
+            var animation = new Animation(v =>
+            {
+                // Animate FontSize
+                label.FontSize = startFontSize + (endFontSize - startFontSize) * v;
 
-        //public static void WidthTo(this View view,
-        //                       double value,
-        //                       double lenght,
-        //                       Easing easing,
-        //                       Action<bool> finished = null,
-        //                       Action<double> updated = null)
-        //{
-        //    var animation = new Animation((value) => {
-        //        Console.WriteLine($"::::{value}");
-        //        view.WidthRequest = value;
-        //        updated?.Invoke(value);
-        //    },
-        //                                  view.Width,
-        //                                  value,
-        //                                  easing);
+                // Animate FontColor
+                label.TextColor = Color.FromRgba(
+                    startFontColor.Red + (endFontColor.Red - startFontColor.Red) * v,
+                    startFontColor.Green + (endFontColor.Green - startFontColor.Green) * v,
+                    startFontColor.Blue + (endFontColor.Blue - startFontColor.Blue) * v,
+                    startFontColor.Alpha + (endFontColor.Alpha - startFontColor.Alpha) * v
+                );
 
-        //    animation.Commit(view,
-        //                     "WidthToAnimation",
-        //                     16,
-        //                     (uint)lenght,
-        //                     finished: (value, cancelled) => { finished?.Invoke(cancelled); });
-        //}
+                if (startBackgroundColor != null)
+                {
+                    // Animate BackgroundColor
+                    label.BackgroundColor = Color.FromRgba(
+                        startBackgroundColor.Red + (endBackgroundColor.Red - startBackgroundColor.Red) * v,
+                        startBackgroundColor.Green + (endBackgroundColor.Green - startBackgroundColor.Green) * v,
+                        startBackgroundColor.Blue + (endBackgroundColor.Blue - startBackgroundColor.Blue) * v,
+                        startBackgroundColor.Alpha + (endBackgroundColor.Alpha - startBackgroundColor.Alpha) * v
+                    );
+                }
+                
+            }, 0, 1);
 
+            // Commit the animation
+            animation.Commit(label, "AnimateLabel", 16, duration);
 
+            await Task.CompletedTask; // Ensures method can be awaited
+        }
 
-        //public static void HeightTo(this View view,
-        //                    double targetHeight,
-        //                    double length,
-        //                    Easing easing,
-        //                    Action<bool> finished = null,
-        //                    Action<double> updated = null)
-        //{
-        //    // Verifica o valor de largura atual a ser usado como ponto de partida
-        //    double initialHeight = view.HeightRequest > 0 ? view.HeightRequest : view.Height;
+        public static async Task ShadowTo(this View view, double startRadius, double endRadius, double startOpacity, double endOpacity, Point startOffset, Point endOffset, uint duration)
+        {
+            
+            // Create an animation to modify the shadow properties
+            var animation = new Animation(v =>
+            {
+                    // Update the shadow properties during the animation
+                    view.Shadow = new Shadow
+                    {
+                        Radius = (float)(startRadius + (endRadius - startRadius) * v),
+                        Opacity = (float)(startOpacity + (endOpacity - startOpacity) * v),
+                        Offset = new Point(
+                            startOffset.X + (endOffset.X - startOffset.X) * v,
+                            startOffset.Y + (endOffset.Y - startOffset.Y) * v
+                        ),
+                        Brush = view.Shadow?.Brush ?? new SolidColorBrush(Colors.Black)
+                    };
+                
+            }, 0, 1);
 
-        //    // Garante que a animação não comece do zero
-        //    var animation = new Animation(value =>
-        //    {
-        //        view.HeightRequest = value;
-        //        updated?.Invoke(value); // Chama o callback de atualização, se fornecido
-        //    },
-        //    initialHeight, // Inicia a animação a partir da largura atual
-        //    targetHeight,  // Anima até o valor de largura desejado
-        //    easing);
+            // Commit the animation
+            animation.Commit(view, "AnimateShadow", 16, duration);
 
-        //    animation.Commit(view,
-        //                     "HeightToAnimation",
-        //                     16, // Frame rate
-        //                     (uint)length, // Duração da animação
-        //                     finished: (value, cancelled) => finished?.Invoke(cancelled)); // Callback quando a animação termina
-        //}
-
+            await Task.CompletedTask; // Ensures method can be awaited
+        }
 
     }
 

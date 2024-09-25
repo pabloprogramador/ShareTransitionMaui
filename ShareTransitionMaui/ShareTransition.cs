@@ -100,7 +100,7 @@ namespace ShareTransitionMaui
                         nextObj.Rotation,
                         currentObj.Width, nextObj.Width,
                         currentObj.Height, nextObj.Height,
-                        700, Easing.SpringOut,
+                        650, Easing.SpringOut,
                         async () => {
                             this.Children.Remove(temp);
                             nextObj.Opacity = 1;
@@ -132,7 +132,7 @@ namespace ShareTransitionMaui
                     //temp.ZIndex = zindex;
                     //zindex++;
 
-                    ShapeAnimationExtensions.AnimateShapeAsync(temp, currentObj, nextObj, 700, Easing.Linear,
+                    ShapeAnimation.AnimateShapeAsync(temp, currentObj, nextObj, 250, Easing.Linear,
                             async () =>
                             {
                                 this.Children.Remove(temp);
@@ -151,6 +151,41 @@ namespace ShareTransitionMaui
                     );
 
                     
+                }
+            }
+
+
+            //LABEL
+            foreach (var item in list)
+            {
+
+                var currentObj = FindByClassId<Label>(_roots[Current].Root, item);
+                var nextObj = FindByClassId<Label>(_roots[index].Root, item);
+                if (nextObj != null)
+                {
+                    listWithClassId.Add(currentObj);
+                    listWithClassId.Add(nextObj);
+
+
+                    var temp = CloneLabel(currentObj);
+                    temp.ClassId = null;
+                    temp.InputTransparent = true;
+
+                    this.Children.Add(temp);
+                    currentObj.Opacity = 0;
+                    nextObj.Text = currentObj.Text;
+                    temp.ZIndex = zindex;
+                    zindex++;
+
+
+
+                    LabelAnimation.AnimateLabelAsync(temp, currentObj, nextObj, 250, Easing.Linear,
+                            async () =>
+                            {
+                                this.Children.Remove(temp);
+                                nextObj.Opacity = 1;
+                            }
+                    );
                 }
             }
 
@@ -316,6 +351,34 @@ namespace ShareTransitionMaui
 
                 target.Fill = gradientClone;
             }
+        }
+
+        private static Label CloneLabel(Label source)
+        {
+            Label clone = new Label();
+
+            clone.Text = source.Text;
+            clone.TextColor = source.TextColor;
+            clone.FontSize = source.FontSize;
+            clone.FormattedText = source.FormattedText;
+            clone.FontAutoScalingEnabled = source.FontAutoScalingEnabled;
+            clone.LineBreakMode = source.LineBreakMode;
+            clone.LineHeight = source.LineHeight;
+            clone.Padding = source.Padding;
+            clone.BackgroundColor = source.BackgroundColor;
+            clone.MaxLines = source.MaxLines;
+            clone.Opacity = source.Opacity;
+            clone.FontFamily = source.FontFamily;
+            clone.FontAttributes = source.FontAttributes;
+            clone.HorizontalTextAlignment = source.HorizontalTextAlignment;
+            clone.VerticalTextAlignment = source.VerticalTextAlignment;
+            clone.WidthRequest = source.WidthRequest;
+            clone.HeightRequest = source.HeightRequest;
+            clone.Shadow = source.Shadow;
+            clone.HorizontalOptions = LayoutOptions.Start;
+            clone.VerticalOptions = LayoutOptions.Start;
+
+            return clone;
         }
 
         private async Task<Image> CloneImage(VisualElement element, Layout targetGrid)

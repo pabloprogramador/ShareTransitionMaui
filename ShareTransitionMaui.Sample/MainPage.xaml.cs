@@ -3,7 +3,7 @@ namespace ShareTransitionMaui.Sample;
 
 public partial class MainPage : ContentPage
 {
-    private double depth = 300; // FORCE OF PARALLAX
+    private double depth = 200; // FORCE OF PARALLAX
     private double sizeMin = 120; // FORCE OF PARALLAX
     private double sizeMax = 200; // FORCE OF PARALLAX
     private int ajustDevice = DeviceInfo.Current.Platform == DevicePlatform.iOS ? 1 : 1;
@@ -93,11 +93,20 @@ public partial class MainPage : ContentPage
 
         Heroes[e.LastVisibleItemIndex].ClassIdImage = null;
         Heroes[e.FirstVisibleItemIndex].ClassIdImage = null;
+
         Heroes[e.LastVisibleItemIndex].ClassIdBorder = null;
         Heroes[e.FirstVisibleItemIndex].ClassIdBorder = null;
 
+        Heroes[e.LastVisibleItemIndex].ClassIdTitle = null;
+        Heroes[e.FirstVisibleItemIndex].ClassIdTitle = null;
+
+        Heroes[e.LastVisibleItemIndex].ClassIdPrice = null;
+        Heroes[e.FirstVisibleItemIndex].ClassIdPrice = null;
+
         Heroes[_currentIndex].ClassIdImage = "imageHero";
         Heroes[_currentIndex].ClassIdBorder = "shapeBackground";
+        Heroes[_currentIndex].ClassIdTitle = "titleShare";
+        Heroes[_currentIndex].ClassIdPrice = "priceShare";
 
     }
 
