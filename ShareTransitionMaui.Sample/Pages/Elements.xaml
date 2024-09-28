@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShareTransitionMaui.Sample.Pages.Elements"
+             xmlns:stm="clr-namespace:ShareTransitionMaui;assembly=ShareTransitionMaui"
+             BackgroundColor="{StaticResource Secondary}"
+             Title="Elements">
+    <stm:ShareTransition x:Name="pgShareTransition">
+        <!-- PAGE 1 -->
+        <Grid IsVisible="False">
+            <Grid Margin="20,60,20,0" ColumnSpacing="10" ColumnDefinitions="90,*" HeightRequest="90" VerticalOptions="Start">
+                <Ellipse Fill="White" ClassId="my_ellypse">
+                    <Ellipse.Shadow>
+                        <Shadow Brush="Black"
+                                                    Offset="0,0"
+                                                    Radius="0"
+                                                    Opacity="0" />
+
+                    </Ellipse.Shadow>
+                </Ellipse>
+                <Image VerticalOptions="Center" HorizontalOptions="Center" ClassId="my_image" Source="logoshare.png"/>
+
+                <RoundRectangle ClassId="my_rectangle" Grid.Column="1" Fill="#E0D99C" CornerRadius="20" />
+                <VerticalStackLayout Grid.Column="1" Padding="20,10">
+                    <Label ClassId="my_title" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="20"  Text="ShareTransition" TextColor="{StaticResource Primary}"/>
+                    <Label ClassId="my_text" HorizontalTextAlignment="Center"  Text="Elements can transition from on tab to another" FontSize="14" TextColor="Black"/>
+                </VerticalStackLayout>
+            </Grid>
+            <ImageButton Clicked="Page1_Clicked"/>
+        </Grid>
+        <!-- PAGE 2 -->
+        <Grid IsVisible="True">
+            <ScrollView>
+                <VerticalStackLayout>
+                    <Grid HeightRequest="250">
+                        <Ellipse ClassId="my_ellypse" Fill="White"
+                               TranslationY="-180"
+                               VerticalOptions="Start"
+                               HeightRequest="380">
+                            <Ellipse.Shadow>
+                                <Shadow Brush="Black"
+                                                    Offset="0,5"
+                                                    Radius="7"
+                                                    Opacity="0.15" />
+
+                            </Ellipse.Shadow>
+                        </Ellipse>
+                        <Rectangle Fill="White" TranslationY="-248" />
+                        <Image ClassId="my_image" Source="logoshare.png" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Ellipse Margin="10" Fill="{StaticResource Primary}" VerticalOptions="Start" HorizontalOptions="End"
+                                 WidthRequest="40" HeightRequest="40"/>
+                        <Label Text="X" TextColor="White"
+                               FontFamily="Arial" FontSize="28" Margin="20,15" FontAttributes="Bold"
+                               VerticalOptions="Start" HorizontalOptions="End"/>
+                        <ImageButton Clicked="Page2_Clicked"/>
+                    </Grid>
+                    <Grid>
+                        <RoundRectangle ClassId="my_rectangle"
+                            Fill="#E0D99C" />
+                        <VerticalStackLayout Margin="20">
+                            <Label ClassId="my_title" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="28"  Text="ShareTransition" TextColor="{StaticResource Primary}"/>
+                            <Label ClassId="my_text" HorizontalTextAlignment="Center"  Text="Elements can transition from on tab to another" FontSize="20" TextColor="Black"/>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <VerticalStackLayout>
+                                    <Label Margin="0,25" HorizontalTextAlignment="Start" FontAttributes="Bold" FontSize="22"  Text="Tags" TextColor="{StaticResource Primary}"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="IMAGE" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="GRID" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="LABEL" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="ELLIPSE" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="RECTANGLE" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="ROUNDRECTANGLE" FontSize="14" TextColor="Black"/>
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1">
+                                    <Label Margin="0,25" HorizontalTextAlignment="Start" FontAttributes="Bold" FontSize="22"  Text="Properties" TextColor="{StaticResource Primary}"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="Width" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="Height" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="Position(x,y)" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="Fill" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="TextColor" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="FontSize" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="BackgroundColor" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="Shadow" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="Stroke" FontSize="14" TextColor="Black"/>
+                                    <Label HorizontalTextAlignment="Start"  Text="LinearGradient" FontSize="14" TextColor="Black"/>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+                        </VerticalStackLayout>
+
+                    </Grid>
+                    <Label Text="*Use Fill for Shapes" Margin="20,20,0,0" FontFamily="Arial" FontAttributes="Bold" FontSize="18" TextColor="Red"/>
+                    <Label Text="*Grids will be converted to Images" Margin="20,0,0,0" FontFamily="Arial" FontAttributes="Bold" FontSize="18" TextColor="Red"/>
+                    <Label Text="*Label requires equal TextAlignment" Margin="20,0,0,0" FontFamily="Arial" FontAttributes="Bold" FontSize="18" TextColor="Red"/>
+                    <Label Text="*Images requires Options not Fill" Margin="20,0,0,0" FontFamily="Arial" FontAttributes="Bold" FontSize="18" TextColor="Red"/>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </stm:ShareTransition>
+</ContentPage>

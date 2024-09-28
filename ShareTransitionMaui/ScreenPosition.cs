@@ -18,9 +18,13 @@ namespace ShareTransitionMaui
 {
     public static class ViewExtensions
     {
+        private static int fixBar = 0;
+
         // Método de extensão para calcular a posição absoluta
         public static Microsoft.Maui.Graphics.Point GetAbsolutePosition(this IView view)
         {
+            
+            fixBar = Shell.GetNavBarIsVisible(Shell.Current.CurrentPage) ? 98 : 0;
             // Chama a função específica para a plataforma
 #if IOS
         return GetAbsolutePositioniOS(view);
@@ -41,9 +45,9 @@ namespace ShareTransitionMaui
             if (nativeView != null)
             {
                 CGRect absoluteFrame = nativeView.ConvertRectToView(nativeView.Bounds, null);
-                return new Point(absoluteFrame.X, absoluteFrame.Y);
+                return new Point(absoluteFrame.X, absoluteFrame.Y -fixBar);
             }
-            return new Point(0, 0);
+            return new Point(0, -fixBar);
         }
 
 #elif ANDROID        
@@ -81,9 +85,9 @@ namespace ShareTransitionMaui
                 }
 
 
-                return new Microsoft.Maui.Graphics.Point(location[0] / 2, location[1] / 2 - fix);
+                return new Microsoft.Maui.Graphics.Point(location[0] / 2, location[1] / 2 - fix - fixBar);
             }
-            return new Microsoft.Maui.Graphics.Point(0, 0);
+            return new Microsoft.Maui.Graphics.Point(0, -fixBar);
         }
 
 

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShareTransitionMaui.Sample.Pages.Sample"
+             xmlns:stm="clr-namespace:ShareTransitionMaui;assembly=ShareTransitionMaui"
+             Title="Sample">
+    <Grid RowDefinitions="240,64"
+          RowSpacing="60">
+        <stm:ShareTransition x:Name="pgShareTransition">
+            <!-- PAGE 1 -->
+            <Grid>
+                <Label Text="Page 1" />
+                <Rectangle ClassId="my_square"
+                           Grid.Row="1"
+                           Margin="50"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                           WidthRequest="40"
+                           HeightRequest="40"
+                           Fill="#FF00A1" />
+            </Grid>
+            <!-- PAGE 2 -->
+            <Grid>
+                <Rectangle ClassId="my_square"
+                           Fill="#FF00A1" />
+                <Label Text="Page 2"
+                       FontSize="40" />
+            </Grid>
+        </stm:ShareTransition>
+        <Button Grid.Row="1"
+                HorizontalOptions="Center"
+                Text="Toogle Pages"
+                Clicked="Button_Clicked" />
+    </Grid>
+</ContentPage>

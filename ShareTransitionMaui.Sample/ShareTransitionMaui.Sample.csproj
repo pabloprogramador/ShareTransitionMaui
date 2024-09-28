@@ -76,6 +76,9 @@
 	  <None Remove="Models\" />
 	  <None Remove="Resources\Images\iron.png" />
 	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Pages\" />
+	  <None Remove="Resources\Images\logoshare.png" />
+	  <None Remove="Resources\Images\ground.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Images\hulk.png" />
@@ -83,8 +86,11 @@
 	  <BundleResource Include="Resources\Images\spider1.png" />
 	  <BundleResource Include="Resources\Images\iron.png" />
 	  <BundleResource Include="Resources\Images\logo.png" />
+	  <BundleResource Include="Resources\Images\logoshare.png" />
+	  <BundleResource Include="Resources\Images\ground.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
+	  <Folder Include="Pages\" />
 	</ItemGroup>
 </Project>

@@ -29,6 +29,13 @@ namespace ShareTransitionMaui
         protected async override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
+
+            foreach (VisualElement item in this.Children)
+            {
+                if (item != this.Children[0])
+                    item.Opacity = 0;
+            }
+
             await Task.Delay(200);
 
             foreach (VisualElement item in this.Children)
@@ -45,6 +52,11 @@ namespace ShareTransitionMaui
             zindex = _roots.Count;
             if (Current >= 0 && Current < _roots.Count)
                 ((VisualElement)_roots[Current].Root).IsVisible = true;
+
+            foreach (VisualElement item in this.Children)
+            {
+                item.Opacity = 1;
+            }
 
         }
 
@@ -81,9 +93,9 @@ namespace ShareTransitionMaui
                     nextObj.Opacity = 0;
 
                     var temp = await CloneImage(currentObj, this);
-                    
-                    if (currentObj.Width / currentObj.Height > nextObj.Width/nextObj.Height)
-                    temp.Aspect = Aspect.AspectFill;
+
+                    if (currentObj.Width / currentObj.Height > nextObj.Width / nextObj.Height)
+                        temp.Aspect = Aspect.AspectFill;
 
                     temp.InputTransparent = true;
                     temp.ZIndex = zindex;
@@ -100,8 +112,9 @@ namespace ShareTransitionMaui
                         nextObj.Rotation,
                         currentObj.Width, nextObj.Width,
                         currentObj.Height, nextObj.Height,
-                        650, Easing.SpringOut,
-                        async () => {
+                        250, Easing.SpringOut,
+                        async () =>
+                        {
                             this.Children.Remove(temp);
                             nextObj.Opacity = 1;
                         });
@@ -122,35 +135,34 @@ namespace ShareTransitionMaui
                     nextObj.Opacity = 0;
 
                     var temp = CloneShape(currentObj);
-                    //temp.VerticalOptions = LayoutOptions.Center;
-                    //temp.HorizontalOptions = LayoutOptions.Center;
-                    temp.ClassId = "";
-                    temp.InputTransparent = true;
-                    
-                    this.Children.Add(temp);
-                    currentObj.Opacity = 0;
-                    //temp.ZIndex = zindex;
-                    //zindex++;
+                    if (temp != null)
+                    {
 
-                    ShapeAnimation.AnimateShapeAsync(temp, currentObj, nextObj, 250, Easing.Linear,
-                            async () =>
-                            {
-                                this.Children.Remove(temp);
-                                if(nextObj.Fill == null)
+                        temp.ClassId = "";
+                        temp.InputTransparent = true;
+
+                        this.Children.Add(temp);
+                        currentObj.Opacity = 0;
+
+                        ShapeAnimation.AnimateShapeAsync(temp, currentObj, nextObj, 250, Easing.Linear,
+                                async () =>
                                 {
-                                   NoBackground.Add(nextObj);
-                                   CopyColorShape(currentObj, nextObj);
-                                }
+                                    this.Children.Remove(temp);
+                                    if (nextObj.Fill == null)
+                                    {
+                                        NoBackground.Add(nextObj);
+                                        CopyColorShape(currentObj, nextObj);
+                                    }
 
-                                if (NoBackground.Contains(currentObj))
-                                {
-                                    currentObj.Fill = null;
+                                    if (NoBackground.Contains(currentObj))
+                                    {
+                                        currentObj.Fill = null;
+                                    }
+                                    nextObj.Opacity = 1;
                                 }
-                                nextObj.Opacity = 1;
-                            }
-                    );
+                        );
 
-                    
+                    }
                 }
             }
 
@@ -199,8 +211,8 @@ namespace ShareTransitionMaui
 
             foreach (var item in _roots[Current].Views)
             {
-                if(!listWithClassId.Contains(item))
-                item.FadeTo(0, 300);
+                if (!listWithClassId.Contains(item))
+                    item.FadeTo(0, 300);
             }
 
             await Task.Delay(700);
@@ -214,7 +226,7 @@ namespace ShareTransitionMaui
             _roots[Current].Root.IsVisible = false;
 
             Current = index;
-            
+
             IsBusy = false;
         }
 
@@ -286,26 +298,75 @@ namespace ShareTransitionMaui
 
         private static Shape CloneShape(Shape shape)
         {
-            var source = (RoundRectangle)shape;
-            
-            var clonedShape = new RoundRectangle();
+            if (shape is Rectangle source)
+            {
+                var clonedShape = new Rectangle();
 
-            clonedShape.Stroke = source.Stroke;
-            clonedShape.StrokeThickness = source.StrokeThickness;
-            clonedShape.CornerRadius = source.CornerRadius;
-            clonedShape.StrokeDashArray = source.StrokeDashArray;
-            clonedShape.StrokeDashOffset = source.StrokeDashOffset;
-            clonedShape.StrokeLineCap = source.StrokeLineCap;
-            clonedShape.StrokeLineJoin = source.StrokeLineJoin;
-            clonedShape.StrokeMiterLimit = source.StrokeMiterLimit;
-            
-            clonedShape.HorizontalOptions = LayoutOptions.Start;
-            clonedShape.VerticalOptions = LayoutOptions.Start;
+                clonedShape.Stroke = source.Stroke;
+                if (source.Fill is not LinearGradientBrush)
+                    clonedShape.Fill = source.Fill;
+                clonedShape.StrokeThickness = source.StrokeThickness;
+                clonedShape.StrokeDashArray = source.StrokeDashArray;
+                clonedShape.StrokeDashOffset = source.StrokeDashOffset;
+                clonedShape.StrokeLineCap = source.StrokeLineCap;
+                clonedShape.StrokeLineJoin = source.StrokeLineJoin;
+                clonedShape.StrokeMiterLimit = source.StrokeMiterLimit;
 
+                clonedShape.HorizontalOptions = LayoutOptions.Start;
+                clonedShape.VerticalOptions = LayoutOptions.Start;
 
-            CopyColorShape(source, clonedShape);
+                CopyColorShape(source, clonedShape);
 
-            return clonedShape;
+                return clonedShape;
+            }
+
+            if (shape is Ellipse sourceEllipse)
+            {
+                var clonedShape = new Ellipse();
+
+                clonedShape.Stroke = sourceEllipse.Stroke;
+                if (sourceEllipse.Fill is not LinearGradientBrush)
+                    clonedShape.Fill = sourceEllipse.Fill;
+                clonedShape.StrokeThickness = sourceEllipse.StrokeThickness;
+                clonedShape.StrokeDashArray = sourceEllipse.StrokeDashArray;
+                clonedShape.StrokeDashOffset = sourceEllipse.StrokeDashOffset;
+                clonedShape.StrokeLineCap = sourceEllipse.StrokeLineCap;
+                clonedShape.StrokeLineJoin = sourceEllipse.StrokeLineJoin;
+                clonedShape.StrokeMiterLimit = sourceEllipse.StrokeMiterLimit;
+
+                clonedShape.HorizontalOptions = LayoutOptions.Start;
+                clonedShape.VerticalOptions = LayoutOptions.Start;
+
+                CopyColorShape(sourceEllipse, clonedShape);
+
+                return clonedShape;
+            }
+
+            if (shape is RoundRectangle sourceRound)
+            {
+                var clonedShape = new RoundRectangle();
+
+                clonedShape.Stroke = sourceRound.Stroke;
+                if (sourceRound.Fill is not LinearGradientBrush)
+                    clonedShape.Fill = sourceRound.Fill;
+                clonedShape.StrokeThickness = sourceRound.StrokeThickness;
+                clonedShape.StrokeDashArray = sourceRound.StrokeDashArray;
+                clonedShape.StrokeDashOffset = sourceRound.StrokeDashOffset;
+                clonedShape.StrokeLineCap = sourceRound.StrokeLineCap;
+                clonedShape.StrokeLineJoin = sourceRound.StrokeLineJoin;
+                clonedShape.StrokeMiterLimit = sourceRound.StrokeMiterLimit;
+
+                clonedShape.HorizontalOptions = LayoutOptions.Start;
+                clonedShape.VerticalOptions = LayoutOptions.Start;
+
+                clonedShape.CornerRadius = sourceRound.CornerRadius;
+
+                CopyColorShape(sourceRound, clonedShape);
+
+                return clonedShape;
+            }
+
+            return null;
         }
 
         private static void CopyColorShape(Shape source, Shape target)
@@ -424,7 +485,7 @@ namespace ShareTransitionMaui
             element.Rotation = startRotation;
             element.WidthRequest = startWidth;
             element.HeightRequest = startHeight;
-            
+
             element.Animate("CustomAnimation", new Animation(v =>
             {
                 element.TranslationX = startX + (endX - startX) * v;
