@@ -23,12 +23,14 @@ namespace ShareTransitionMaui
         // Método de extensão para calcular a posição absoluta
         public static Microsoft.Maui.Graphics.Point GetAbsolutePosition(this IView view)
         {
-            
-            fixBar = Shell.GetNavBarIsVisible(Shell.Current.CurrentPage) ? 98 : 0;
+
+
             // Chama a função específica para a plataforma
 #if IOS
-        return GetAbsolutePositioniOS(view);
+            fixBar = Shell.GetNavBarIsVisible(Shell.Current.CurrentPage) ? 98 : 0;
+            return GetAbsolutePositioniOS(view);
 #elif ANDROID
+            fixBar = Shell.GetNavBarIsVisible(Shell.Current.CurrentPage) ? 65 : 0;
             return GetAbsolutePositionAndroid(view);
 #else
         return new Point(0, 0); // Outras plataformas podem ser tratadas aqui

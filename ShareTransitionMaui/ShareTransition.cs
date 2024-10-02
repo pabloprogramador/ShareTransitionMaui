@@ -112,7 +112,7 @@ namespace ShareTransitionMaui
                         nextObj.Rotation,
                         currentObj.Width, nextObj.Width,
                         currentObj.Height, nextObj.Height,
-                        250, Easing.SpringOut,
+                        550, Easing.SpringOut,
                         async () =>
                         {
                             this.Children.Remove(temp);
@@ -137,14 +137,13 @@ namespace ShareTransitionMaui
                     var temp = CloneShape(currentObj);
                     if (temp != null)
                     {
-
                         temp.ClassId = "";
                         temp.InputTransparent = true;
 
                         this.Children.Add(temp);
                         currentObj.Opacity = 0;
 
-                        ShapeAnimation.AnimateShapeAsync(temp, currentObj, nextObj, 250, Easing.Linear,
+                        ShapeAnimation.AnimateShapeAsync(temp, currentObj, nextObj, 550, Easing.Linear,
                                 async () =>
                                 {
                                     this.Children.Remove(temp);
@@ -191,7 +190,7 @@ namespace ShareTransitionMaui
 
 
 
-                    LabelAnimation.AnimateLabelAsync(temp, currentObj, nextObj, 250, Easing.Linear,
+                    LabelAnimation.AnimateLabelAsync(temp, currentObj, nextObj, 550, Easing.Linear,
                             async () =>
                             {
                                 this.Children.Remove(temp);
@@ -212,7 +211,9 @@ namespace ShareTransitionMaui
             foreach (var item in _roots[Current].Views)
             {
                 if (!listWithClassId.Contains(item))
+                {
                     item.FadeTo(0, 300);
+                }
             }
 
             await Task.Delay(700);

@@ -5,9 +5,12 @@
              xmlns:stm="clr-namespace:ShareTransitionMaui;assembly=ShareTransitionMaui"
              BackgroundColor="{StaticResource Secondary}"
              Title="Elements">
-    <stm:ShareTransition x:Name="pgShareTransition">
+   
+    
+         <stm:ShareTransition x:Name="pgShareTransition">
+        
         <!-- PAGE 1 -->
-        <Grid IsVisible="False">
+        <Grid>
             <Grid Margin="20,60,20,0" ColumnSpacing="10" ColumnDefinitions="90,*" HeightRequest="90" VerticalOptions="Start">
                 <Ellipse Fill="White" ClassId="my_ellypse">
                     <Ellipse.Shadow>
@@ -29,14 +32,16 @@
             <ImageButton Clicked="Page1_Clicked"/>
         </Grid>
         <!-- PAGE 2 -->
-        <Grid IsVisible="True">
+        <Grid>
             <ScrollView>
                 <VerticalStackLayout>
                     <Grid HeightRequest="250">
-                        <Ellipse ClassId="my_ellypse" Fill="White"
-                               TranslationY="-180"
-                               VerticalOptions="Start"
-                               HeightRequest="380">
+                        <AbsoluteLayout>
+                            <Ellipse ClassId="my_ellypse" 
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     TranslationY="-125"
+                                     AbsoluteLayout.LayoutBounds="0,.5,1,1.7"
+                                     Fill="White">
                             <Ellipse.Shadow>
                                 <Shadow Brush="Black"
                                                     Offset="0,5"
@@ -45,13 +50,25 @@
 
                             </Ellipse.Shadow>
                         </Ellipse>
+
+                        </AbsoluteLayout>
+                        
                         <Rectangle Fill="White" TranslationY="-248" />
                         <Image ClassId="my_image" Source="logoshare.png" VerticalOptions="Center" HorizontalOptions="Center"/>
-                        <Ellipse Margin="10" Fill="{StaticResource Primary}" VerticalOptions="Start" HorizontalOptions="End"
-                                 WidthRequest="40" HeightRequest="40"/>
+
+                        <Grid VerticalOptions="Start"
+                                 HorizontalOptions="End"
+                              Margin="10"
+                                 WidthRequest="40" HeightRequest="40">
+                            <Ellipse  Fill="{StaticResource Primary}"
+                                 />
                         <Label Text="X" TextColor="White"
-                               FontFamily="Arial" FontSize="28" Margin="20,15" FontAttributes="Bold"
-                               VerticalOptions="Start" HorizontalOptions="End"/>
+                               HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                               FontFamily="Arial" FontSize="28" FontAttributes="Bold"
+                               />
+
+                        </Grid>
+                        
                         <ImageButton Clicked="Page2_Clicked"/>
                     </Grid>
                     <Grid>
