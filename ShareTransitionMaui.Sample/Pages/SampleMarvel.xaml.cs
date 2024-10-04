@@ -7,6 +7,13 @@ public partial class SampleMarvel : ContentPage
 	{
         InitializeComponent();
         this.BindingContext = Heroes;
+
+        pgShareTransition.ImageDuration = 900;
+        pgShareTransition.ImageEasing = Easing.SpringOut;
+
+        pgShareTransition.ShapeDuration = 300;
+        
+
     }
     private double depth = 200; // FORCE OF PARALLAX
     private double sizeMin = 120; // FORCE OF PARALLAX
@@ -119,11 +126,15 @@ public partial class SampleMarvel : ContentPage
 
     void ImageButton_Clicked(System.Object sender, System.EventArgs e)
     {
+        pgShareTransition.LabelDuration = 700;
+        pgShareTransition.LabelEasing = Easing.BounceOut;
         pgShareTransition.GoTo(1);
     }
 
     void Button_Clicked(System.Object sender, System.EventArgs e)
     {
+        pgShareTransition.LabelDuration = 400;
+        pgShareTransition.LabelEasing = Easing.Linear;
         pgShareTransition.GoTo(0);
     }
 

@@ -11,20 +11,16 @@
         
         <!-- PAGE 1 -->
         <Grid>
-            <Grid Margin="20,60,20,0" ColumnSpacing="10" ColumnDefinitions="90,*" HeightRequest="90" VerticalOptions="Start">
-                <Ellipse Fill="White" ClassId="my_ellypse">
-                    <Ellipse.Shadow>
-                        <Shadow Brush="Black"
-                                                    Offset="0,0"
-                                                    Radius="0"
-                                                    Opacity="0" />
+            <Grid Margin="20,20,20,0" RowSpacing="10"
+                  RowDefinitions="120,Auto"
+                  >
+                <Ellipse Fill="White" ClassId="my_ellypse" VerticalOptions="Center"
+                         HorizontalOptions="Center" WidthRequest="120"
+                         HeightRequest="120"/>
+                <Image Margin="10" VerticalOptions="Center" HorizontalOptions="Center" ClassId="my_image" Source="logoshare.png"/>
 
-                    </Ellipse.Shadow>
-                </Ellipse>
-                <Image VerticalOptions="Center" HorizontalOptions="Center" ClassId="my_image" Source="logoshare.png"/>
-
-                <RoundRectangle ClassId="my_rectangle" Grid.Column="1" Fill="#E0D99C" CornerRadius="20" />
-                <VerticalStackLayout Grid.Column="1" Padding="20,10">
+                <RoundRectangle ClassId="my_rectangle" Grid.Row="1" Fill="#E0D99C" CornerRadius="20" />
+                <VerticalStackLayout Grid.Row="1" Padding="20,10">
                     <Label ClassId="my_title" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="20"  Text="ShareTransition" TextColor="{StaticResource Primary}"/>
                     <Label ClassId="my_text" HorizontalTextAlignment="Center"  Text="Elements can transition from on tab to another" FontSize="14" TextColor="Black"/>
                 </VerticalStackLayout>
@@ -42,13 +38,8 @@
                                      TranslationY="-125"
                                      AbsoluteLayout.LayoutBounds="0,.5,1,1.7"
                                      Fill="White">
-                            <Ellipse.Shadow>
-                                <Shadow Brush="Black"
-                                                    Offset="0,5"
-                                                    Radius="7"
-                                                    Opacity="0.15" />
-
-                            </Ellipse.Shadow>
+                           
+                             
                         </Ellipse>
 
                         </AbsoluteLayout>

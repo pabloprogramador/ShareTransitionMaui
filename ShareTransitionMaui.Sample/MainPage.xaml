@@ -1,20 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="True"
              x:Class="ShareTransitionMaui.Sample.MainPage">
     <Grid IgnoreSafeArea="True">
-        <Image Source="ground.png" Aspect="Fill"/>
+        <Image Source="ground.png" x:Name="pgGround" Aspect="Fill"/>
         <Grid RowDefinitions=".4*,.6*" RowSpacing="20" Margin="30">
-            <Image Source="logoshare.png" VerticalOptions="Center"/>
+            <Image x:Name="pgLogo" Source="logoshare.png" VerticalOptions="Center"/>
             <ScrollView Grid.Row="1">
                 <VerticalStackLayout VerticalOptions="Center"  Spacing="20">
                     <Button Text="Sample Basic" Clicked="Sample_Clicked"/>
                     <Button Text="Elements" Clicked="Elements_Clicked" />
-                    <Button Text="ListView" />
+                    <Button Text="List" Clicked="List_Clicked" />
                     <Button Text="Card" />
                     <Button Text="Marvel Carousel" Clicked="Marvel_Clicked"/>
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
+        <Image x:Name="pgLogoFim" BackgroundColor="Red" HorizontalOptions="End" HeightRequest="10" WidthRequest="10" VerticalOptions="End"/>
     </Grid>
 </ContentPage>

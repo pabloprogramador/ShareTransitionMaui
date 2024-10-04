@@ -10,9 +10,23 @@ namespace ShareTransitionMaui
     public class ShareTransition : Grid
     {
 
-        public bool IsBusy;
+        public int LabelDuration { get; set; } = 250;
+        public Easing LabelEasing { get; set; } = Easing.Linear;
+
+        public int ImageDuration { get; set; } = 250;
+        public Easing ImageEasing { get; set; } = Easing.Linear;
+
+        public int GridDuration { get; set; } = 250;
+        public Easing GridEasing { get; set; } = Easing.Linear;
+
+        public int ShapeDuration { get; set; } = 250;
+        public Easing ShapeEasing { get; set; } = Easing.Linear;
+
+        public int FadeDuration { get; set; } = 250;
+
         public int Current = 0;
 
+        private bool IsBusy;
         private int zindex;
         private List<PageRoot> _roots;
         private List<Element> NoBackground;
@@ -62,6 +76,11 @@ namespace ShareTransitionMaui
 
         public async Task GoTo(int index)
         {
+            bool hasImage = false;
+            bool hasShape = false;
+            bool hasLabel = false;
+            bool hasGrid = false;
+
             if (IsBusy) return;
             IsBusy = true;
 
@@ -87,6 +106,7 @@ namespace ShareTransitionMaui
                 var nextObj = FindByClassId<Image>(_roots[index].Root, item);
                 if (nextObj != null)
                 {
+                    hasImage = true;
                     listWithClassId.Add(currentObj);
                     listWithClassId.Add(nextObj);
 
@@ -94,8 +114,8 @@ namespace ShareTransitionMaui
 
                     var temp = await CloneImage(currentObj, this);
 
-                    if (currentObj.Width / currentObj.Height > nextObj.Width / nextObj.Height)
-                        temp.Aspect = Aspect.AspectFill;
+                    //if (currentObj.Width / currentObj.Height > nextObj.Width / nextObj.Height)
+                    //    temp.Aspect = Aspect.AspectFill;
 
                     temp.InputTransparent = true;
                     temp.ZIndex = zindex;
@@ -112,7 +132,7 @@ namespace ShareTransitionMaui
                         nextObj.Rotation,
                         currentObj.Width, nextObj.Width,
                         currentObj.Height, nextObj.Height,
-                        550, Easing.SpringOut,
+                        (uint)ImageDuration, ImageEasing,
                         async () =>
                         {
                             this.Children.Remove(temp);
@@ -129,6 +149,7 @@ namespace ShareTransitionMaui
                 var nextObj = FindByClassId<Shape>(_roots[index].Root, item);
                 if (nextObj != null)
                 {
+                    hasShape = true;
                     listWithClassId.Add(currentObj);
                     listWithClassId.Add(nextObj);
 
@@ -143,7 +164,7 @@ namespace ShareTransitionMaui
                         this.Children.Add(temp);
                         currentObj.Opacity = 0;
 
-                        ShapeAnimation.AnimateShapeAsync(temp, currentObj, nextObj, 550, Easing.Linear,
+                        ShapeAnimation.AnimateShapeAsync(temp, currentObj, nextObj, (uint)ShapeDuration, ShapeEasing,
                                 async () =>
                                 {
                                     this.Children.Remove(temp);
@@ -169,11 +190,12 @@ namespace ShareTransitionMaui
             //LABEL
             foreach (var item in list)
             {
-
+                
                 var currentObj = FindByClassId<Label>(_roots[Current].Root, item);
                 var nextObj = FindByClassId<Label>(_roots[index].Root, item);
                 if (nextObj != null)
                 {
+                    hasLabel = true;
                     listWithClassId.Add(currentObj);
                     listWithClassId.Add(nextObj);
 
@@ -190,7 +212,7 @@ namespace ShareTransitionMaui
 
 
 
-                    LabelAnimation.AnimateLabelAsync(temp, currentObj, nextObj, 550, Easing.Linear,
+                    LabelAnimation.AnimateLabelAsync(temp, currentObj, nextObj, (uint)LabelDuration, LabelEasing,
                             async () =>
                             {
                                 this.Children.Remove(temp);
@@ -204,7 +226,7 @@ namespace ShareTransitionMaui
             {
                 if (!listWithClassId.Contains(item))
                 {
-                    item.FadeTo(1, 300);
+                    item.FadeTo(1, (uint)FadeDuration);
                 }
             }
 
@@ -212,11 +234,28 @@ namespace ShareTransitionMaui
             {
                 if (!listWithClassId.Contains(item))
                 {
-                    item.FadeTo(0, 300);
+                    item.FadeTo(0, (uint)FadeDuration);
                 }
             }
 
-            await Task.Delay(700);
+            List<int> durationTemp = new List<int>
+            {
+                FadeDuration
+            };
+
+            if (hasLabel)
+                durationTemp.Add(LabelDuration);
+
+            if (hasGrid)
+                durationTemp.Add(GridDuration);
+
+            if(hasImage)
+                durationTemp.Add(ImageDuration);
+
+            if(hasGrid)
+                durationTemp.Add(GridDuration);
+
+            await Task.Delay(durationTemp.Max());
 
             foreach (var item in _roots[Current].Views)
             {
@@ -443,17 +482,18 @@ namespace ShareTransitionMaui
             return clone;
         }
 
-        private async Task<Image> CloneImage(VisualElement element, Layout targetGrid)
+        private async Task<Image> CloneImage(Image element, Layout targetGrid)
         {
-            // Captura o visual do elemento
             var screenshot = await element.CaptureAsync();
 
             if (screenshot != null)
             {
-                // Cria um Image a partir do resultado da captura
+                
+                //var stream = await screenshot.OpenReadAsync();
                 var image = new Image
                 {
-                    Source = ImageSource.FromStream(() => screenshot.OpenReadAsync().Result),
+                    //Source = ImageSource.FromStream(() => stream),
+                    Source = element.Source,
                     VerticalOptions = LayoutOptions.Start,
                     HorizontalOptions = LayoutOptions.Start,
                     WidthRequest = element.Width,   // Ajusta a largura
@@ -461,9 +501,9 @@ namespace ShareTransitionMaui
                     Opacity = 0
                 };
 
-                // Adiciona a imagem à grid
                 targetGrid.Children.Add(image);
                 await Task.Delay(200);
+                
                 return image;
             }
             return null;

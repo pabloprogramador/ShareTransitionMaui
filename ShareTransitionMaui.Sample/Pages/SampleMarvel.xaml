@@ -56,12 +56,12 @@
                                                               Offset="1.0" />
                                             </LinearGradientBrush>
                                         </RoundRectangle.Fill>
-                                        <RoundRectangle.Shadow>
+                                        <!--<RoundRectangle.Shadow>
                                             <Shadow Brush="Black"
                                                     Offset="0,10"
                                                     Radius="10"
                                                     Opacity="0.4" />
-                                        </RoundRectangle.Shadow>
+                                        </RoundRectangle.Shadow>-->
                                     </RoundRectangle>
                                 </Grid>
                                 <Image ClassId="{Binding ClassIdImage}"
@@ -126,12 +126,12 @@
               RowSpacing="20">
             <RoundRectangle ClassId="shapeBackground"
                             CornerRadius="0">
-                <RoundRectangle.Shadow>
+                <!--<RoundRectangle.Shadow>
                     <Shadow Brush="Black"
                             Offset="0,10"
                             Radius="5"
                             Opacity="0.4" />
-                </RoundRectangle.Shadow>
+                </RoundRectangle.Shadow>-->
             </RoundRectangle>
             <Image Source="spider1.png"
                    ClassId="imageHero"

@@ -18,45 +18,38 @@ namespace ShareTransitionMaui
 {
     public static class ViewExtensions
     {
-        private static int fixBar = 0;
-
-        // Método de extensão para calcular a posição absoluta
+        private static DisplayInfo mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+        
         public static Microsoft.Maui.Graphics.Point GetAbsolutePosition(this IView view)
         {
 
-
-            // Chama a função específica para a plataforma
 #if IOS
-            fixBar = Shell.GetNavBarIsVisible(Shell.Current.CurrentPage) ? 98 : 0;
-            return GetAbsolutePositioniOS(view);
+            var fix = GetAbsolutePositioniOS(Shell.Current.CurrentPage);
+            return GetAbsolutePositioniOS(view, fix.Y);
 #elif ANDROID
-            fixBar = Shell.GetNavBarIsVisible(Shell.Current.CurrentPage) ? 65 : 0;
-            return GetAbsolutePositionAndroid(view);
+            var fix = GetAbsolutePositionAndroid(Shell.Current.CurrentPage);
+            return GetAbsolutePositionAndroid(view, fix.Y);
 #else
-        return new Point(0, 0); // Outras plataformas podem ser tratadas aqui
+        return new Point(0, 0);
 #endif
         }
 
 #if IOS
-        // Implementação para iOS
-        static Microsoft.Maui.Graphics.Point GetAbsolutePositioniOS(IView view)
+        static Microsoft.Maui.Graphics.Point GetAbsolutePositioniOS(IView view, double fixHeight = 0)
         {
-            // Obter a UIView associada à View MAUI
             var handler = view?.Handler;
             var nativeView = handler?.PlatformView as UIView;
             if (nativeView != null)
             {
                 CGRect absoluteFrame = nativeView.ConvertRectToView(nativeView.Bounds, null);
-                return new Point(absoluteFrame.X, absoluteFrame.Y -fixBar);
+                return new Point(absoluteFrame.X, absoluteFrame.Y - fixHeight);
             }
-            return new Point(0, -fixBar);
+            return new Point(0, -fixHeight);
         }
 
 #elif ANDROID        
-        // Implementação para Android
-        static Microsoft.Maui.Graphics.Point GetAbsolutePositionAndroid(IView view)
+        static Microsoft.Maui.Graphics.Point GetAbsolutePositionAndroid(IView view, double fixHeight = 0)
         {
-
             var handler = view?.Handler;
             var nativeView = handler?.PlatformView as Android.Views.View;
             if (nativeView != null)
@@ -65,34 +58,10 @@ namespace ShareTransitionMaui
                 int[] location = new int[2];
                 nativeView.GetLocationOnScreen(location);
 
-                int fix = 0;
-                if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.R)
-                {
-                    var insets = nativeView.RootWindowInsets;
-
-                    // Obter as áreas do sistema (barra de status, barra de navegação, etc.)
-                    var statusBarInsets = insets.GetInsets(WindowInsets.Type.StatusBars());
-                    fix = statusBarInsets.Top/2;
-                }
-                else
-                {
-                    var window = Platform.CurrentActivity.Window;
-                    var flags = window.DecorView.SystemUiVisibility;
-
-                    // Verifica se o aplicativo está em tela cheia (fullscreen)
-                    bool isFullscreen = (flags & (StatusBarVisibility)SystemUiFlags.Fullscreen) == (StatusBarVisibility)SystemUiFlags.Fullscreen;
-
-
-                    fix = isFullscreen ? 0 : 25;
-                }
-
-
-                return new Microsoft.Maui.Graphics.Point(location[0] / 2, location[1] / 2 - fix - fixBar);
+                return new Microsoft.Maui.Graphics.Point(location[0] / mainDisplayInfo.Density, (location[1] / mainDisplayInfo.Density) - fixHeight);
             }
-            return new Microsoft.Maui.Graphics.Point(0, -fixBar);
+            return new Microsoft.Maui.Graphics.Point(0, -fixHeight);
         }
-
-
 #endif
 
     }
