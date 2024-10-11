@@ -182,7 +182,10 @@ namespace ShareTransitionMaui
                         ),
                         Brush = view.Shadow?.Brush ?? new SolidColorBrush(Colors.Black)
                     };
-                
+                //Console.WriteLine($"opacity>>{view.Shadow.Opacity}");
+                //Console.WriteLine($"radius>>{view.Shadow.Radius}");
+                //Console.WriteLine($"offset>>{view.Shadow.Offset}");
+
             }, 0, 1);
 
             // Commit the animation

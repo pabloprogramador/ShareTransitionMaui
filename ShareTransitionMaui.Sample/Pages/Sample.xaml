@@ -22,7 +22,7 @@
             <!-- PAGE 2 -->
             <Grid>
                 <Rectangle ClassId="my_square"
-                           Fill="#FF00A1" />
+                           Fill="#FFE501" />
                 <Label Text="Page 2"
                        FontSize="40" />
             </Grid>

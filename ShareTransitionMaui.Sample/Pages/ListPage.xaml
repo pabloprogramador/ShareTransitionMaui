@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShareTransitionMaui.Sample.Pages.ListPage"
+             xmlns:stm="clr-namespace:ShareTransitionMaui;assembly=ShareTransitionMaui"
+             xmlns:models="clr-namespace:ShareTransitionMaui.Sample.Models"
+             Title="Appointment of Candidates">
+    <stm:ShareTransition x:Name="pgShareTransition">
+        <!--PAGE 1-->
+        <ScrollView>
+            <VerticalStackLayout x:Name="pgListStack" Spacing="1" BackgroundColor="#cfcfcf" />
+        </ScrollView>
+        <!--PAGE 2-->
+        <Grid Margin="20,20" RowDefinitions="300,Auto,*,50" RowSpacing="20">
+            <Image ClassId="AvatarST" VerticalOptions="Center"  Source="f1.jpg"/>
+            <VerticalStackLayout Grid.Row="1">
+                <Label ClassId="NameST" Text="Paul Cardoso" FontFamily="Arial" FontSize="20" FontAttributes="Bold"/>
+                <Label ClassId="PositionST" Text="Diretor" FontSize="18"/>
+            </VerticalStackLayout>
+            <ScrollView Grid.Row="2">
+                <VerticalStackLayout>
+                    <Label x:Name="pgSummary"
+                        TextColor="Black" FontSize="14"/>
+                </VerticalStackLayout>
+            </ScrollView>
+            <Grid Grid.Row="3" ColumnSpacing="5" ColumnDefinitions="*,*,*">
+                <Button Clicked="Back_Clicked" Text="Back" Grid.Column="0" BackgroundColor="Black" />
+                <Button Text="Edit" Grid.Column="1" BackgroundColor="DarkOrange" />
+                <Button Text="Send" Grid.Column="2" BackgroundColor="MediumSeaGreen" />
+            </Grid>
+        </Grid>
+    </stm:ShareTransition>
+</ContentPage>

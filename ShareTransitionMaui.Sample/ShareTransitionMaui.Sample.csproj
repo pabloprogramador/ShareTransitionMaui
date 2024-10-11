@@ -79,6 +79,24 @@
 	  <None Remove="Pages\" />
 	  <None Remove="Resources\Images\logoshare.png" />
 	  <None Remove="Resources\Images\ground.png" />
+	  <None Remove="Resources\Images\f1.jpg" />
+	  <None Remove="Resources\Images\f2.jpg" />
+	  <None Remove="Resources\Images\f3.jpg" />
+	  <None Remove="Resources\Images\f4.jpg" />
+	  <None Remove="Resources\Images\f5.jpg" />
+	  <None Remove="Resources\Images\f6.jpg" />
+	  <None Remove="Resources\Images\f7.jpg" />
+	  <None Remove="Resources\Images\f8.jpg" />
+	  <None Remove="Resources\Images\f9.jpg" />
+	  <None Remove="Resources\Images\f10.jpg" />
+	  <None Remove="Resources\Images\f11.jpg" />
+	  <None Remove="Resources\Images\f12.jpg" />
+	  <None Remove="Resources\Images\f13.jpg" />
+	  <None Remove="Resources\Images\f14.jpg" />
+	  <None Remove="Resources\Images\f15.jpg" />
+	  <None Remove="Resources\Images\f16.jpg" />
+	  <None Remove="Resources\Images\f17.jpg" />
+	  <None Remove="Views\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Images\hulk.png" />
@@ -88,9 +106,27 @@
 	  <BundleResource Include="Resources\Images\logo.png" />
 	  <BundleResource Include="Resources\Images\logoshare.png" />
 	  <BundleResource Include="Resources\Images\ground.png" />
+	  <BundleResource Include="Resources\Images\f1.jpg" />
+	  <BundleResource Include="Resources\Images\f2.jpg" />
+	  <BundleResource Include="Resources\Images\f3.jpg" />
+	  <BundleResource Include="Resources\Images\f4.jpg" />
+	  <BundleResource Include="Resources\Images\f5.jpg" />
+	  <BundleResource Include="Resources\Images\f6.jpg" />
+	  <BundleResource Include="Resources\Images\f7.jpg" />
+	  <BundleResource Include="Resources\Images\f8.jpg" />
+	  <BundleResource Include="Resources\Images\f9.jpg" />
+	  <BundleResource Include="Resources\Images\f10.jpg" />
+	  <BundleResource Include="Resources\Images\f11.jpg" />
+	  <BundleResource Include="Resources\Images\f12.jpg" />
+	  <BundleResource Include="Resources\Images\f13.jpg" />
+	  <BundleResource Include="Resources\Images\f14.jpg" />
+	  <BundleResource Include="Resources\Images\f15.jpg" />
+	  <BundleResource Include="Resources\Images\f16.jpg" />
+	  <BundleResource Include="Resources\Images\f17.jpg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />
 	  <Folder Include="Pages\" />
+	  <Folder Include="Views\" />
 	</ItemGroup>
 </Project>

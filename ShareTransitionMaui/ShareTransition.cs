@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Maui.Layouts;
 using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Controls;
 
 namespace ShareTransitionMaui
 {
@@ -86,17 +87,20 @@ namespace ShareTransitionMaui
 
             var listWithClassId = new List<Element>();
 
-            ((VisualElement)_roots[index].Root).ZIndex = zindex;
+            _roots[Current].Root.ZIndex = zindex;
             zindex++;
 
-            var list = FindAllClassIds((VisualElement)_roots[index].Root);
+            var list = FindAllClassIds(_roots[index].Root);
 
-            ((VisualElement)_roots[index].Root).IsVisible = true;
+            _roots[index].Root.IsVisible = true;
 
-            foreach (var item in _roots[index].Views)
-            {
-                item.Opacity = 0;
-            }
+            //foreach (var item in _roots[index].Views)
+            //{
+            //    item.Opacity = 0;
+            //}
+            
+
+            _roots[index].Root.Opacity = 0;
 
             //IMAGE
             foreach (var item in list)
@@ -224,19 +228,30 @@ namespace ShareTransitionMaui
 
             foreach (var item in _roots[index].Views)
             {
-                if (!listWithClassId.Contains(item))
+                if (listWithClassId.Contains(item))
                 {
-                    item.FadeTo(1, (uint)FadeDuration);
+                    item.Opacity = 0;
                 }
             }
 
-            foreach (var item in _roots[Current].Views)
-            {
-                if (!listWithClassId.Contains(item))
-                {
-                    item.FadeTo(0, (uint)FadeDuration);
-                }
-            }
+            _roots[index].Root.FadeTo(1, (uint)FadeDuration);
+            _roots[Current].Root.FadeTo(0, (uint)FadeDuration);
+            //foreach (var item in _roots[index].Views)
+            //{
+            //    if (!listWithClassId.Contains(item))
+            //    {
+            //        item.FadeTo(1, (uint)FadeDuration);
+            //    }
+            //}
+
+            //foreach (var item in _roots[Current].Views)
+            //{
+            //    if (!listWithClassId.Contains(item))
+            //    {
+            //        item.FadeTo(0, (uint)FadeDuration);
+            //    }
+            //}
+
 
             List<int> durationTemp = new List<int>
             {
@@ -257,10 +272,10 @@ namespace ShareTransitionMaui
 
             await Task.Delay(durationTemp.Max());
 
-            foreach (var item in _roots[Current].Views)
-            {
-                item.Opacity = 1;
-            }
+            //foreach (var item in _roots[Current].Views)
+            //{
+            //    item.Opacity = 1;
+            //}
 
 
             _roots[Current].Root.IsVisible = false;
@@ -294,6 +309,7 @@ namespace ShareTransitionMaui
                 // Chama o método recursivamente para o conteúdo
                 views.AddRange(SearchAllViews((VisualElement)content));
             }
+            
 
             return views;
         }
@@ -332,7 +348,7 @@ namespace ShareTransitionMaui
             {
                 classIds.AddRange(FindAllClassIds((Element)child)); // Recursão para buscar nos filhos
             }
-
+            
             return classIds;
         }
 

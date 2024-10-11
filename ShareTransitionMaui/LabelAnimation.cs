@@ -16,16 +16,16 @@ namespace ShareTransitionMaui
                 nextPoint.X, nextPoint.Y,
                 current.Width, target.Width,
                 current.Height, target.Height, duration, easing, null);
-
+            
             // Animação de Shadow
             if (current.Shadow != null && target.Shadow != null)
             {
                 source.Shadow = new Shadow();
                 //ShadowAnimation(source, source.Shadow, target.Shadow, duration, easing);
                 AnimationExtensions.ShadowTo(source,
-                    source.Shadow.Radius, target.Shadow.Radius,
-                    source.Shadow.Opacity, target.Shadow.Opacity,
-                    source.Shadow.Offset, target.Shadow.Offset,
+                    current.Shadow.Radius, target.Shadow.Radius,
+                    current.Shadow.Opacity, target.Shadow.Opacity,
+                    current.Shadow.Offset, target.Shadow.Offset,
                     duration
                     );
             }

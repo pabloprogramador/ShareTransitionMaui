@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ShareTransitionMaui.Sample.Models"
+             x:Class="ShareTransitionMaui.Sample.Views.UserView">
+    <Grid Padding="10" BackgroundColor="White">
+        <Grid ColumnDefinitions="65,*,55"
+         x:DataType="models:Users"  
+                          ColumnSpacing="10" HeightRequest="65">
+            <Border StrokeShape="RoundRectangle 65" StrokeThickness="0">
+                <Image x:Name="pgAvatar"  />
+            </Border>
+            
+            <VerticalStackLayout VerticalOptions="Center" Grid.Column="1">
+                <Label x:Name="pgName" FontFamily="Arial" FontSize="14" FontAttributes="Bold"/>
+                <Label x:Name="pgPosition" Margin="0,0,0,0" ClassId="NameST" FontSize="12"/>
+                <Label x:Name="pgSummarySamll" TextColor="DarkGray" FontSize="12"/>
+            </VerticalStackLayout>
+            <Label Grid.Column="2" x:Name="pgAppointment"
+                   TextColor="LightSlateGray"
+                   VerticalTextAlignment="Center"
+                   Padding="5,0"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="16" BackgroundColor="#efefef"/>
+        </Grid>
+        <ImageButton Clicked="ImageButton_Clicked"/>
+    </Grid>
+</ContentView>
+

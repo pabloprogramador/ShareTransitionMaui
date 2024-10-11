@@ -40,9 +40,9 @@ namespace ShareTransitionMaui
                 source.Shadow = new Shadow();
                 //ShadowAnimation(source, source.Shadow, target.Shadow, duration, easing);
                 AnimationExtensions.ShadowTo(source,
-                    source.Shadow.Radius, target.Shadow.Radius,
-                    source.Shadow.Opacity, target.Shadow.Opacity,
-                    source.Shadow.Offset, target.Shadow.Offset,
+                    current.Shadow.Radius, target.Shadow.Radius,
+                    current.Shadow.Opacity, target.Shadow.Opacity,
+                    current .Shadow.Offset, target.Shadow.Offset,
                     duration
                     );
             }
