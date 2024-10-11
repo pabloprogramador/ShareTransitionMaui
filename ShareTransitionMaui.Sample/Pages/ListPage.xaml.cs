@@ -22,9 +22,9 @@ public partial class ListPage : ContentPage
     public ListPage()
 	{
 		InitializeComponent();
-        pgShareTransition.ImageDuration = 500;
-        pgShareTransition.LabelDuration = 400;
-        pgShareTransition.FadeDuration = 400;
+        pgShareTransition.ImageDuration = 700;
+        pgShareTransition.LabelDuration = 600;
+        pgShareTransition.FadeDuration = 500;
         pgShareTransition.ImageEasing = Easing.CubicOut;
 
         foreach (var item in UsersMock.GetUsers())

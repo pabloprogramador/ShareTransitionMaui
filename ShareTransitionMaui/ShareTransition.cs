@@ -94,12 +94,6 @@ namespace ShareTransitionMaui
 
             _roots[index].Root.IsVisible = true;
 
-            //foreach (var item in _roots[index].Views)
-            //{
-            //    item.Opacity = 0;
-            //}
-            
-
             _roots[index].Root.Opacity = 0;
 
             //IMAGE
@@ -164,6 +158,7 @@ namespace ShareTransitionMaui
                     {
                         temp.ClassId = "";
                         temp.InputTransparent = true;
+                        temp.ZIndex = -1;
 
                         this.Children.Add(temp);
                         currentObj.Opacity = 0;
@@ -194,7 +189,7 @@ namespace ShareTransitionMaui
             //LABEL
             foreach (var item in list)
             {
-                
+
                 var currentObj = FindByClassId<Label>(_roots[Current].Root, item);
                 var nextObj = FindByClassId<Label>(_roots[index].Root, item);
                 if (nextObj != null)
@@ -213,7 +208,7 @@ namespace ShareTransitionMaui
                     nextObj.Text = currentObj.Text;
                     temp.ZIndex = zindex;
                     zindex++;
-
+                    nextObj.Opacity = 0;
 
 
                     LabelAnimation.AnimateLabelAsync(temp, currentObj, nextObj, (uint)LabelDuration, LabelEasing,
@@ -226,16 +221,13 @@ namespace ShareTransitionMaui
                 }
             }
 
-            foreach (var item in _roots[index].Views)
-            {
-                if (listWithClassId.Contains(item))
-                {
-                    item.Opacity = 0;
-                }
-            }
+
+            //_roots[index].Root.Opacity = 1;
+           
 
             _roots[index].Root.FadeTo(1, (uint)FadeDuration);
             _roots[Current].Root.FadeTo(0, (uint)FadeDuration);
+
             //foreach (var item in _roots[index].Views)
             //{
             //    if (!listWithClassId.Contains(item))
@@ -264,10 +256,10 @@ namespace ShareTransitionMaui
             if (hasGrid)
                 durationTemp.Add(GridDuration);
 
-            if(hasImage)
+            if (hasImage)
                 durationTemp.Add(ImageDuration);
 
-            if(hasGrid)
+            if (hasGrid)
                 durationTemp.Add(GridDuration);
 
             await Task.Delay(durationTemp.Max());
@@ -309,9 +301,27 @@ namespace ShareTransitionMaui
                 // Chama o método recursivamente para o conteúdo
                 views.AddRange(SearchAllViews((VisualElement)content));
             }
-            
+
 
             return views;
+        }
+
+        private void SetOpacityClassIds(View parent)
+        {
+
+            // Se o elemento atual tiver um ClassId, adiciona na lista
+            if (!string.IsNullOrEmpty(parent.ClassId))
+            {
+                parent.Opacity = 0;
+            }
+
+            // Percorre os filhos visuais do elemento
+            foreach (var child in (parent as IVisualTreeElement).GetVisualChildren())
+            {
+                FindAllClassIds((Element)child);
+            }
+
+            return;
         }
 
         private T FindByClassId<T>(Element parent, string classId) where T : Element
@@ -348,7 +358,7 @@ namespace ShareTransitionMaui
             {
                 classIds.AddRange(FindAllClassIds((Element)child)); // Recursão para buscar nos filhos
             }
-            
+
             return classIds;
         }
 
@@ -504,7 +514,7 @@ namespace ShareTransitionMaui
 
             if (screenshot != null)
             {
-                
+
                 //var stream = await screenshot.OpenReadAsync();
                 var image = new Image
                 {
@@ -519,7 +529,7 @@ namespace ShareTransitionMaui
 
                 targetGrid.Children.Add(image);
                 await Task.Delay(200);
-                
+
                 return image;
             }
             return null;
