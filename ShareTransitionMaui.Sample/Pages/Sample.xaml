@@ -10,6 +10,7 @@
             <!-- PAGE 1 -->
             <Grid>
                 <Label Text="Page 1" />
+                <Frame ClassId="my_frame" HorizontalOptions="End" BackgroundColor="Blue"/>
                 <Rectangle ClassId="my_square"
                            Grid.Row="1"
                            Margin="50"
@@ -21,6 +22,7 @@
             </Grid>
             <!-- PAGE 2 -->
             <Grid>
+                <Frame ClassId="my_frame" BackgroundColor="Orange" Padding="50"/>
                 <Rectangle ClassId="my_square"
                            Fill="#FFE501" />
                 <Label Text="Page 2"

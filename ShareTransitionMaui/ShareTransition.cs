@@ -207,31 +207,24 @@ namespace ShareTransitionMaui
                         temp.InputTransparent = true;
                         temp.ZIndex = zindex;
                         zindex++;
-                        temp.Content = new Image()
+
+                        if(currentObj.Content is Image && nextObj.Content is Image)
                         {
-                            Source = ((Image)currentObj.Content).Source,
-                            Aspect = ((Image)nextObj.Content).Aspect
-                        };
+                            temp.Content = new Image()
+                            {
+                                Source = ((Image)currentObj.Content).Source,
+                                Aspect = ((Image)nextObj.Content).Aspect
+                            };
+                            ((Image)nextObj.Content).Source = ((Image)currentObj.Content).Source;
+                        }
+                        
                         this.Children.Add(temp);
                         currentObj.Opacity = 0;
 
                         FrameAnimation.AnimateFrameAsync(temp, currentObj, nextObj, (uint)FrameDuration, FrameEasing,
                                 async () =>
                                 {
-
-                                    ((Image)nextObj.Content).Source = ((Image)currentObj.Content).Source;
                                     this.Children.Remove(temp);
-
-                                    //if (nextObj.BackgroundColor == null)
-                                    //{
-                                    //    NoBackground.Add(nextObj);
-                                    //    nextObj.BackgroundColor = currentObj.BackgroundColor;
-                                    //}
-
-                                    //if (NoBackground.Contains(currentObj))
-                                    //{
-                                    //    currentObj.BackgroundColor = null;
-                                    //}
                                     nextObj.Opacity = 1;
                                 }
                         );
