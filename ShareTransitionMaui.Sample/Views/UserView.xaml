@@ -4,18 +4,19 @@
              xmlns:models="clr-namespace:ShareTransitionMaui.Sample.Models"
              x:Class="ShareTransitionMaui.Sample.Views.UserView">
     <Grid Padding="10" BackgroundColor="White">
-        <Grid ColumnDefinitions="65,*,55"
-         x:DataType="models:Users"  
-                          ColumnSpacing="10" HeightRequest="65">
-            <Border StrokeShape="RoundRectangle 65" StrokeThickness="0">
-                <Image x:Name="pgAvatar"  />
-            </Border>
-            
+        <Grid ColumnDefinitions="65,*,55" x:DataType="models:Users" ColumnSpacing="10" HeightRequest="65">
+
+            <Frame x:Name="pgAvatarClip" Padding="0"
+                   BorderColor="LightGray" IsClippedToBounds="True" CornerRadius="32">
+                <Image Aspect="AspectFill" x:Name="pgAvatar"  />
+            </Frame>
+
             <VerticalStackLayout VerticalOptions="Center" Grid.Column="1">
                 <Label x:Name="pgName" FontFamily="Arial" FontSize="14" FontAttributes="Bold"/>
                 <Label x:Name="pgPosition" Margin="0,0,0,0" ClassId="NameST" FontSize="12"/>
                 <Label x:Name="pgSummarySamll" TextColor="DarkGray" FontSize="12"/>
             </VerticalStackLayout>
+
             <Label Grid.Column="2" x:Name="pgAppointment"
                    TextColor="LightSlateGray"
                    VerticalTextAlignment="Center"
@@ -24,6 +25,7 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    FontSize="16" BackgroundColor="#efefef"/>
+
         </Grid>
         <ImageButton Clicked="ImageButton_Clicked"/>
     </Grid>

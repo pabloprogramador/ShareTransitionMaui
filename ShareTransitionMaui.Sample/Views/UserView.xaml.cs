@@ -20,14 +20,14 @@ public partial class UserView : ContentView
 	{
 		pgName.ClassId = "";
 		pgPosition.ClassId = "";
-		pgAvatar.ClassId = "";
+        pgAvatarClip.ClassId = "";
 	}
 
     public void SetClassIds()
     {
         pgName.ClassId = "NameST";
 		pgPosition.ClassId = "PositionST";
-		pgAvatar.ClassId = "AvatarST";
+		pgAvatarClip.ClassId = "AvatarST";
     }
 
     void ImageButton_Clicked(System.Object sender, System.EventArgs e)

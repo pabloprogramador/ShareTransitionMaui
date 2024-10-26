@@ -10,6 +10,8 @@ namespace ShareTransitionMaui
 {
     public class ShareTransition : Grid
     {
+        public int FrameDuration { get; set; } = 250;
+        public Easing FrameEasing { get; set; } = Easing.Linear;
 
         public int LabelDuration { get; set; } = 250;
         public Easing LabelEasing { get; set; } = Easing.Linear;
@@ -185,6 +187,58 @@ namespace ShareTransitionMaui
                 }
             }
 
+            //FRAME
+            foreach (var item in list)
+            {
+                var currentObj = FindByClassId<Frame>(_roots[Current].Root, item);
+                var nextObj = FindByClassId<Frame>(_roots[index].Root, item);
+                if (nextObj != null)
+                {
+                    hasShape = true;
+                    listWithClassId.Add(currentObj);
+                    listWithClassId.Add(nextObj);
+
+                    nextObj.Opacity = 0;
+
+                    var temp = CloneFrame(currentObj);
+                    if (temp != null)
+                    {
+                        temp.ClassId = "";
+                        temp.InputTransparent = true;
+                        temp.ZIndex = zindex;
+                        zindex++;
+                        temp.Content = new Image()
+                        {
+                            Source = ((Image)currentObj.Content).Source,
+                            Aspect = ((Image)nextObj.Content).Aspect
+                        };
+                        this.Children.Add(temp);
+                        currentObj.Opacity = 0;
+
+                        FrameAnimation.AnimateFrameAsync(temp, currentObj, nextObj, (uint)FrameDuration, FrameEasing,
+                                async () =>
+                                {
+
+                                    ((Image)nextObj.Content).Source = ((Image)currentObj.Content).Source;
+                                    this.Children.Remove(temp);
+
+                                    //if (nextObj.BackgroundColor == null)
+                                    //{
+                                    //    NoBackground.Add(nextObj);
+                                    //    nextObj.BackgroundColor = currentObj.BackgroundColor;
+                                    //}
+
+                                    //if (NoBackground.Contains(currentObj))
+                                    //{
+                                    //    currentObj.BackgroundColor = null;
+                                    //}
+                                    nextObj.Opacity = 1;
+                                }
+                        );
+
+                    }
+                }
+            }
 
             //LABEL
             foreach (var item in list)
@@ -223,7 +277,7 @@ namespace ShareTransitionMaui
 
 
             //_roots[index].Root.Opacity = 1;
-           
+
 
             _roots[index].Root.FadeTo(1, (uint)FadeDuration);
             _roots[Current].Root.FadeTo(0, (uint)FadeDuration);
@@ -362,6 +416,27 @@ namespace ShareTransitionMaui
             return classIds;
         }
 
+
+
+        private static Frame CloneFrame(Frame source)
+        {
+            var clone = new Frame();
+
+            clone.CornerRadius = source.CornerRadius;
+            clone.WidthRequest = source.Width;
+            clone.HeightRequest = source.Height;
+            clone.Padding = source.Padding;
+            clone.Background = source.Background;
+            clone.BackgroundColor = source.BackgroundColor;
+            clone.IsClippedToBounds = source.IsClippedToBounds;
+            clone.HasShadow = source.HasShadow;
+            clone.Content = source.Content;
+            clone.HorizontalOptions = LayoutOptions.Start;
+            clone.VerticalOptions = LayoutOptions.Start;
+
+            return clone;
+        }
+
         private static Shape CloneShape(Shape shape)
         {
             if (shape is Rectangle source)
@@ -433,6 +508,51 @@ namespace ShareTransitionMaui
             }
 
             return null;
+        }
+
+        private static void CopyColorBorder(Border source, Border target)
+        {
+            if (source.Background is LinearGradientBrush linearGradient)
+            {
+                // Clonando o gradiente linear
+                var gradientClone = new LinearGradientBrush
+                {
+                    StartPoint = linearGradient.StartPoint,
+                    EndPoint = linearGradient.EndPoint
+                };
+
+                foreach (var gradientStop in linearGradient.GradientStops)
+                {
+                    gradientClone.GradientStops.Add(new GradientStop
+                    {
+                        Offset = gradientStop.Offset,
+                        Color = gradientStop.Color
+                    });
+                }
+
+                target.Background = gradientClone;
+            }
+            else if (source.Background is RadialGradientBrush radialGradient)
+            {
+                // Clonando o gradiente radial
+                var gradientClone = new RadialGradientBrush
+                {
+                    Center = radialGradient.Center,
+                    Radius = radialGradient.Radius,
+                    GradientStops = radialGradient.GradientStops
+                };
+
+                foreach (var gradientStop in radialGradient.GradientStops)
+                {
+                    gradientClone.GradientStops.Add(new GradientStop
+                    {
+                        Offset = gradientStop.Offset,
+                        Color = gradientStop.Color
+                    });
+                }
+
+                target.Background = gradientClone;
+            }
         }
 
         private static void CopyColorShape(Shape source, Shape target)

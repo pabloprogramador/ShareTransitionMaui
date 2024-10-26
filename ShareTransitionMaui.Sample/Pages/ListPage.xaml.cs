@@ -7,8 +7,6 @@ public partial class ListPage : ContentPage
 {
     private int index = 0;
 
-    
-
     private BackButtonBehavior backBlock = new BackButtonBehavior
     {
         IsEnabled = true,
@@ -22,10 +20,10 @@ public partial class ListPage : ContentPage
     public ListPage()
 	{
 		InitializeComponent();
-        pgShareTransition.ImageDuration = 700;
+        pgShareTransition.FrameDuration = 700;
         pgShareTransition.LabelDuration = 600;
         pgShareTransition.FadeDuration = 500;
-        pgShareTransition.ImageEasing = Easing.CubicOut;
+        pgShareTransition.FrameEasing = Easing.CubicOut;
 
         foreach (var item in UsersMock.GetUsers())
         {

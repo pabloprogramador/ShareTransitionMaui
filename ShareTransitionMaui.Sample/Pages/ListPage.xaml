@@ -12,10 +12,13 @@
         </ScrollView>
         <!--PAGE 2-->
         <Grid Margin="20,20" RowDefinitions="300,Auto,*,50" RowSpacing="20">
-            <Image ClassId="AvatarST" VerticalOptions="Center"  Source="f1.jpg"/>
+            <Frame ClassId="AvatarST" HasShadow="False" Padding="0" CornerRadius="0"
+                   BorderColor="Transparent" IsClippedToBounds="True">
+                <Image VerticalOptions="Center" Aspect="AspectFill"  Source="f1.jpg"/>
+            </Frame>
             <VerticalStackLayout Grid.Row="1">
-                <Label ClassId="NameST" Text="Paul Cardoso" FontFamily="Arial" FontSize="20" FontAttributes="Bold"/>
-                <Label ClassId="PositionST" Text="Diretor" FontSize="18"/>
+                <Label ClassId="NameST" Text="Paul Cardoso" FontFamily="Arial" FontSize="25" FontAttributes="Bold"/>
+                <Label ClassId="PositionST" Text="Diretor" FontSize="22"/>
             </VerticalStackLayout>
             <ScrollView Grid.Row="2">
                 <VerticalStackLayout>
