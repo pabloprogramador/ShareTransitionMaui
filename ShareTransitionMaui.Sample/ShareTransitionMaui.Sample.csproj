@@ -97,6 +97,7 @@
 	  <None Remove="Resources\Images\f16.jpg" />
 	  <None Remove="Resources\Images\f17.jpg" />
 	  <None Remove="Views\" />
+	  <None Remove="Resources\Images\card.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Images\hulk.png" />
@@ -123,6 +124,7 @@
 	  <BundleResource Include="Resources\Images\f15.jpg" />
 	  <BundleResource Include="Resources\Images\f16.jpg" />
 	  <BundleResource Include="Resources\Images\f17.jpg" />
+	  <BundleResource Include="Resources\Images\card.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\" />

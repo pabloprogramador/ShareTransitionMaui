@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShareTransitionMaui.Sample.Pages.MasterCard"
+             xmlns:stm="clr-namespace:ShareTransitionMaui;assembly=ShareTransitionMaui"
+             Shell.BackgroundColor="#05613C"
+             Shell.TitleColor="#F3D344"
+             Title="BLAZEO" BackgroundColor="#EFEFEF">
+    <stm:ShareTransition x:Name="pgShareTransition">
+        <!--PAGE 1-->
+        <ScrollView IsVisible="True">
+            <VerticalStackLayout Margin="30" Spacing="20">
+                <Label FontSize="22" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#05613C"
+               Text="Master Card Bank" HorizontalTextAlignment="Center"/>
+                <VerticalStackLayout x:Name="pg1_p1" Spacing="20">
+                     <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="Available balance" HorizontalTextAlignment="Center"/>
+                <Label FontSize="36" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="Black"
+               Text="€ 2.708,91" HorizontalTextAlignment="Center"/>
+                <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="Mastercard credit" HorizontalTextAlignment="Start"/>
+
+                </VerticalStackLayout>
+               
+                <Grid x:Name="pgGrid" ColumnDefinitions="10,100,*,10" HeightRequest="80">
+                    <RoundRectangle StrokeThickness="0" BackgroundColor="White"
+              Grid.ColumnSpan="4"   CornerRadius="15"/>
+                    <Image ClassId="my_card" Source="card.png" Grid.Column="1" />
+                    <VerticalStackLayout Grid.Column="2" Padding="10" Spacing="4">
+                        <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="Credit accounts" HorizontalTextAlignment="Start"/>
+                        <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="Black"
+               Text="€ 8.000,00" HorizontalTextAlignment="Start"/>
+                        <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#05613C" 
+               Text="Details" HorizontalTextAlignment="Start"/>
+                    </VerticalStackLayout>
+                    <ImageButton Grid.ColumnSpan="4" Clicked="Go1_Clicked" />
+                </Grid>
+
+                <VerticalStackLayout x:Name="pg1_p2" Spacing="20">
+                     <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="Debit accounts" HorizontalTextAlignment="Start"/>
+
+                <Grid ColumnDefinitions="*,*" HeightRequest="160" RowDefinitions="*,50">
+
+                    <RoundRectangle StrokeThickness="0" BackgroundColor="White"
+              Grid.ColumnSpan="2"   CornerRadius="15,15,0,0"/>
+                    <RoundRectangle StrokeThickness="0" BackgroundColor="Black"
+              Grid.ColumnSpan="2" Grid.Row="1"  CornerRadius="0, 0, 15, 15"/>
+
+                    <VerticalStackLayout Grid.ColumnSpan="2" Margin="15" Spacing="10">
+                        <Label FontSize="18" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="Current acount" HorizontalTextAlignment="Start"/>
+                        <Label FontSize="30" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="Black"
+               Text="€ 2.708,91" HorizontalTextAlignment="Start"/>
+                    </VerticalStackLayout>
+                    <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="White"
+                   VerticalTextAlignment="Center"
+            Grid.Row="1"
+               Text="DETAILS" HorizontalTextAlignment="Center"/>
+                    <Label FontSize="16" FontFamily="Arial"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   VerticalTextAlignment="Center"
+               FontAttributes="Bold"
+               TextColor="White"
+               Text="CARDS" HorizontalTextAlignment="Center"/>
+                </Grid>
+                    </VerticalStackLayout>
+               
+            </VerticalStackLayout>
+        </ScrollView>
+        <!--PAGE 2-->
+        <ScrollView>
+            <VerticalStackLayout Margin="30" Spacing="20">
+                <Label FontSize="22" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#05613C"
+               Text="Master Card Bank" HorizontalTextAlignment="Center"/>
+                <VerticalStackLayout x:Name="pg2_p1" Spacing="20">
+                <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="Available credit" HorizontalTextAlignment="Center"/>
+                <Label FontSize="36" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="Black"
+               Text="€ 8.000,00" HorizontalTextAlignment="Center"/>
+                <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="Total used credit: @ 0,00" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                <Grid>
+                <Image ClassId="my_card" Source="card.png" />
+                    <ImageButton Clicked="Go0_Clicked"/>
+                </Grid>
+                <VerticalStackLayout x:Name="pg2_p2" Spacing="20">
+                <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="#6D6D6D"
+               Text="My Options" HorizontalTextAlignment="Start"/>
+
+                <Grid ColumnDefinitions="*,*,*" HeightRequest="60">
+
+                    <RoundRectangle StrokeThickness="0"
+                            BackgroundColor="#05613C"
+                CornerRadius="15, 0, 15, 0"/>
+
+                    <RoundRectangle StrokeThickness="0" BackgroundColor="#05613C"
+              Grid.Column="1" CornerRadius="0"/>
+
+                    <RoundRectangle StrokeThickness="0" BackgroundColor="#F3D344"
+              Grid.Column="2" CornerRadius="0, 15, 0, 15"/>
+
+                    <Label FontSize="16" FontFamily="Arial"
+               FontAttributes="Bold"
+               TextColor="White"
+                   VerticalTextAlignment="Center"
+               Text="EVENTS" HorizontalTextAlignment="Center"/>
+
+                    <Label FontSize="16" FontFamily="Arial"
+                   Grid.Column="1"
+                   VerticalTextAlignment="Center"
+               FontAttributes="Bold"
+               TextColor="White"
+               Text="MANAGE" HorizontalTextAlignment="Center"/>
+
+                    <Label FontSize="16" FontFamily="Arial"
+                   Grid.Column="2"
+                   VerticalTextAlignment="Center"
+               FontAttributes="Bold"
+               TextColor="Black"
+               Text="INFO" HorizontalTextAlignment="Center"/>
+                </Grid>
+
+                <Label FontSize="14" FontFamily="Arial"
+               TextColor="#6D6D6D"
+               Text="On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish"
+                   HorizontalTextAlignment="Start"/>
+            </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </stm:ShareTransition>
+
+</ContentPage>

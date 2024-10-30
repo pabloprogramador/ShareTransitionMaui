@@ -27,6 +27,9 @@ namespace ShareTransitionMaui
 
         public int FadeDuration { get; set; } = 250;
 
+        public bool HasFade { get; set; } = true;
+
+
         public int Current = 0;
 
         private bool IsBusy;
@@ -96,6 +99,7 @@ namespace ShareTransitionMaui
 
             _roots[index].Root.IsVisible = true;
 
+            if(HasFade)
             _roots[index].Root.Opacity = 0;
 
             //IMAGE
@@ -268,28 +272,18 @@ namespace ShareTransitionMaui
                 }
             }
 
+            
+            if (HasFade)
+            {
+                _roots[index].Root.FadeTo(1, (uint)FadeDuration);
+                _roots[Current].Root.FadeTo(0, (uint)FadeDuration);
 
-            //_roots[index].Root.Opacity = 1;
+            }
+            else
+            {
+                _roots[index].Root.Opacity = 1;
+            }
 
-
-            _roots[index].Root.FadeTo(1, (uint)FadeDuration);
-            _roots[Current].Root.FadeTo(0, (uint)FadeDuration);
-
-            //foreach (var item in _roots[index].Views)
-            //{
-            //    if (!listWithClassId.Contains(item))
-            //    {
-            //        item.FadeTo(1, (uint)FadeDuration);
-            //    }
-            //}
-
-            //foreach (var item in _roots[Current].Views)
-            //{
-            //    if (!listWithClassId.Contains(item))
-            //    {
-            //        item.FadeTo(0, (uint)FadeDuration);
-            //    }
-            //}
 
 
             List<int> durationTemp = new List<int>
@@ -310,11 +304,6 @@ namespace ShareTransitionMaui
                 durationTemp.Add(GridDuration);
 
             await Task.Delay(durationTemp.Max());
-
-            //foreach (var item in _roots[Current].Views)
-            //{
-            //    item.Opacity = 1;
-            //}
 
 
             _roots[Current].Root.IsVisible = false;

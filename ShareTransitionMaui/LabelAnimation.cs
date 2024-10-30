@@ -36,6 +36,7 @@ namespace ShareTransitionMaui
                 current.BackgroundColor, target.BackgroundColor,
                 duration);
 
+           
             // Ao final da animação, chamar o callback se houver
             await Task.Delay((int)duration + 100);
             onCompleted?.Invoke();

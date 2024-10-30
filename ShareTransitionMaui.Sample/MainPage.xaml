@@ -12,7 +12,7 @@
                     <Button Text="Sample Basic" Clicked="Sample_Clicked"/>
                     <Button Text="Elements" Clicked="Elements_Clicked" />
                     <Button Text="List" Clicked="List_Clicked" />
-                    <Button Text="Card" />
+                    <Button Text="Card" Clicked="MasterCard_Clicked" />
                     <Button Text="Marvel Carousel" Clicked="Marvel_Clicked"/>
                 </VerticalStackLayout>
             </ScrollView>

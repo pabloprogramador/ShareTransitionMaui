@@ -21,6 +21,11 @@ public partial class MainPage : ContentPage
         Navigation.PushAsync(new Pages.Elements());
     }
 
+    void MasterCard_Clicked(System.Object sender, System.EventArgs e)
+    {
+        Navigation.PushAsync(new Pages.MasterCard());
+    }
+
     void Marvel_Clicked(System.Object sender, System.EventArgs e)
     {
         Navigation.PushAsync(new Pages.SampleMarvel());

@@ -63,6 +63,7 @@ namespace ShareTransitionMaui
 
             }
 
+            
             // Ao final da animação, chamar o callback se houver
             await Task.Delay((int)duration + 100);
             onCompleted?.Invoke();
