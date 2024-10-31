@@ -17,6 +17,5 @@
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
-        <Image x:Name="pgLogoFim" BackgroundColor="Red" HorizontalOptions="End" HeightRequest="10" WidthRequest="10" VerticalOptions="End"/>
     </Grid>
 </ContentPage>

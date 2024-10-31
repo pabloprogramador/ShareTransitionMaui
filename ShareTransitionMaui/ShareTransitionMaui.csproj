@@ -16,9 +16,26 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+
+		<PackageId>ShareTransitionMaui</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>pabloprogramador@gmail.com</Authors>
+		<Description>Share Transition Maui with custom animation transition. A .NET MAUI library for easily customizable animations of transitions of pages.</Description>
+		<PackageProjectUrl>https://github.com/pabloprogramador/ShareTransitionMaui</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/pabloprogramador/ShareTransitionMaui</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>Share,Transition,Shell;Custom;MAUI;Maui</PackageTags>
+		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
+		<ItemGroup>
+	  <None Include="icon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<ItemGroup>
