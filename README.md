@@ -1,3 +1,5 @@
+<img src="/icon.png" height="300">
+
 # SHARE TRANSITION MAUI
 Custom Navigation with custom animation transition.
 A .NET MAUI library for easily customizable animations of transitions of pages.
