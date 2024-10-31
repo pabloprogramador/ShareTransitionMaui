@@ -33,8 +33,8 @@ To use, mark ClassId="my_square" in shared tags:
         </stm:ShareTransition>
 ```
 
-<img src="images/simple.png" height="400">
+<img src="images/simple.gif" height="400">
 
 
-|<img src="images/element.gif" height="400">|<img src="images/element.gif" height="400">|<img src="images/list.gif" height="400">|<img src="images/card.gif" height="400">|
+|<img src="images/element.gif" height="400">|<img src="images/list.gif" height="400">|<img src="images/card.gif" height="400">|<img src="images/marvel.gif" height="400">|
 
