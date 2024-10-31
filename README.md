@@ -1,4 +1,4 @@
-<img src="/icon.png" height="300">
+<img src="/icon.png" height="200">
 
 # SHARE TRANSITION MAUI
 Custom Navigation with custom animation transition.
